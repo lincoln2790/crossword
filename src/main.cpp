@@ -29,7 +29,7 @@ int main() {
 			}
 		}
 		window.clear(sf::Color::Black);
-		sf::Sprite tile = get_tile('V',&tile_texture);
+		sf::Sprite tile = get_tile('W',&tile_texture);
 		window.draw(tile);
 		window.display();
 	}
