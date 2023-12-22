@@ -11,7 +11,7 @@ sf::Sprite get_tile(char letter, sf::Texture *tile_texture){
 	int x,y;
 	if(letter >= 'a') letter = letter - 32;
 	x = TILE_WIDTH*((3 + (letter - 'A'))%15);
-	y = TILE_HEIGHT*(2 + ((3 + (letter - 'A')) > 15));
+	y = TILE_HEIGHT*(2 + ((3 + (letter - 'A')) >= 15));
 	sf::Sprite tile;
 	tile.setTexture(*tile_texture);
 	tile.setScale(TILE_SCALE,TILE_SCALE);
@@ -24,7 +24,7 @@ void draw_word(word_t word, sf::RenderWindow *window){
 	}
 }
 
-std::map<char, std::vector<std::pair<std::string, int>>> read_file(){
+std::map<char, std::vector<std::pair<std::string, int>>> read_file(int *num_words){
     std::map<char, std::vector<std::pair<std::string, int>>> map;
     std::ifstream file;
 
@@ -41,6 +41,7 @@ std::map<char, std::vector<std::pair<std::string, int>>> read_file(){
         }
         w++;
     }
+	*num_words = w;
     // Accessing and printing the map contents
     // for (const auto& pair : map) {
     //     std::cout << pair.first << ": ";
