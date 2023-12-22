@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "../include/const.hpp"
 #include "../include/func.hpp"
+#include "../include/tile.hpp"
+#include "../include/word.hpp"
+
 int main() {
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), TITLE ,sf::Style::Titlebar | sf::Style::Close);
 	window.setTitle(TITLE);
@@ -29,8 +32,10 @@ int main() {
 			}
 		}
 		window.clear(sf::Color::Black);
-		sf::Sprite tile = get_tile('W',&tile_texture);
-		window.draw(tile);
+		word_t word(&tile_texture, "HAROLD", 100, 100);
+		draw_word(word, &window);
+		tile_t tile(get_tile('V', &tile_texture), 80,200);
+		window.draw(tile.sprite);
 		window.display();
 	}
 	return 0;
