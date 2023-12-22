@@ -8,7 +8,7 @@ class word_t{
 	public:
 	sf::Vector2f pos;
 	std::list<tile_t> tiles;
-	word_t(sf::Texture *tile_texture, std::string letters, float x, float y);
+	word_t(sf::Texture *tile_texture, std::string letters, float x, float y, char is_horiz);
 };
 
 #endif
