@@ -89,8 +89,9 @@ int main() {
 				//word_t word(&tile_texture, word_map['a'].at(rand() % word_map['a'].size()).first, 100, 100,0);
 				for(auto it = word_list.begin(); it != word_list.end(); ++it){
 					draw_word(*it, &window);
+					
 				}
-				draw_word(*(word_list.begin()), &window);
+				//draw_word(*(word_list.begin()), &window);
 				//draw_word(*(word_list.begin()++), &window);
 				//draw_word(*(word_list.begin()++), &window);
 				//draw_word(*(root_word.tiles.begin())->crossing_word, &window);

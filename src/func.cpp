@@ -70,9 +70,13 @@ word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::stri
 	//}
 	int tile_index = v[rand() % v.size()];
 	if(tile->is_horiz){
-		return word_t(tile_texture, s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false , word_list, false, word_map);
+		 word_t w(tile_texture, s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false , word_list, false, word_map);
+		 tile->crossing_word = &w;
+		 return w;
 	} else {
-		return word_t(tile_texture, s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, word_list, false, word_map);
+		word_t w(tile_texture, s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, word_list, false, word_map);
+		 tile->crossing_word = &w;
+		 return w;
 	}
 
 	

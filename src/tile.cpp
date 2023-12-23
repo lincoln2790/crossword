@@ -8,6 +8,7 @@ tile_t::tile_t(sf::Sprite s, float x, float y, char l, int is_horiz){
 	sprite = s;
     sprite.setPosition(pos);
 	letter = l;
+	this->is_horiz = is_horiz;
 };
 
 

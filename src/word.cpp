@@ -4,6 +4,7 @@
 #include "../include/word.hpp"
 #include "../include/func.hpp"
 word_t::word_t(sf::Texture *tile_texture, std::string letters, float x, float y, int is_horiz, std::list<word_t> *word_list, int is_correct , std::map<char, std::vector<std::pair<std::string, int>>>* word_map){
+	
 	for(int l = 0; l < letters.length(); l++){
 		if(is_horiz){
 			tile_t tile(get_tile(letters[l], tile_texture), x+TILE_WIDTH*TILE_SCALE*l, y, letters[l], is_horiz);
