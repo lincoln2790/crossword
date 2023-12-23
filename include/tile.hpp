@@ -1,12 +1,15 @@
 #ifndef TILE_H
 #define TILE_H
-
+#include "word.hpp"
+class word_t;
 class tile_t{
-    sf::Vector2f pos;
     public:
         sf::Sprite sprite;
-    tile_t(sf::Sprite s, float x, float y);
-
+    	sf::Vector2f pos;
+    tile_t(sf::Sprite s, float x, float y, char l, int is_horiz);
+	word_t *crossing_word;
+	int is_horiz;
+	char letter;
 };
 
 

@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
-#include "word.hpp"
 
 sf::Sprite get_tile(char letter, sf::Texture *tile_texture);
 
 //void get_wod_map(const std::string word_list);
 std::map<char, std::vector<std::pair<std::string, int>>> read_file(int *num_words);
 
+std::vector<int> find_letter_indices(std::string s, char c);
+
+word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::string, int>>>* word_map, sf::Texture *tile_texture, std::list<word_t> *word_list);
 void draw_word(word_t word, sf::RenderWindow *window);

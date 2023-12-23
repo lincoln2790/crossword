@@ -1,7 +1,7 @@
 #include "../include/const.hpp"
-#include "../include/func.hpp"
 #include "../include/word.hpp"
 #include "../include/tile.hpp"
+#include "../include/func.hpp"
 #include "SFML/Graphics.hpp"
 #include <list>
 #include <iostream>
@@ -28,7 +28,7 @@ std::map<char, std::vector<std::pair<std::string, int>>> read_file(int *num_word
     std::map<char, std::vector<std::pair<std::string, int>>> map;
     std::ifstream file;
 
-    file.open ("word_list_subset.txt");
+    file.open ("word_list.txt");
     if (!file.is_open()) return map;
 
     std::string word;
@@ -53,3 +53,28 @@ std::map<char, std::vector<std::pair<std::string, int>>> read_file(int *num_word
     // std::cout << map['a'].at(0).first << std::endl;
     return map;
 }
+std::vector<int> find_letter_indices(std::string s, char c){
+	std::vector<int> v;
+	for(int i = 0; i < s.size(); i++){
+		if(s[i] == c) v.push_back(i);
+	}
+	return v;
+}
+
+word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::string, int>>>* word_map, sf::Texture *tile_texture, std::list<word_t> *word_list){
+	std::string s =  (*word_map)[tile->letter].at(rand() % (*word_map)[tile->letter].size()).first;
+	std::vector<int> v = find_letter_indices(s, tile->letter);
+	std::cout << s << std::endl;
+	//for(int i = 0 ; i < v.size(); i++){
+		//std::cout << v[i] << std::endl;
+	//}
+	int tile_index = v[rand() % v.size()];
+	if(tile->is_horiz){
+		return word_t(tile_texture, s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false , word_list, false, word_map);
+	} else {
+		return word_t(tile_texture, s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, word_list, false, word_map);
+	}
+
+	
+}
+
