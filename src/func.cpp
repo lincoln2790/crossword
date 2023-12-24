@@ -1,12 +1,13 @@
-#include "../include/const.hpp"
-#include "../include/word.hpp"
-#include "../include/tile.hpp"
-#include "../include/func.hpp"
 #include "SFML/Graphics.hpp"
 #include <list>
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <set>
+#include "../include/const.hpp"
+#include "../include/word.hpp"
+#include "../include/tile.hpp"
+#include "../include/func.hpp"
 sf::Sprite get_tile(char letter, sf::Texture *tile_texture){
 	int x,y;
 	if(letter >= 'a') letter = letter - 32;
@@ -64,21 +65,43 @@ std::vector<int> find_letter_indices(std::string s, char c){
 word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::string, int>>>* word_map, sf::Texture *tile_texture, std::list<word_t> *word_list){
 	std::string s =  (*word_map)[tile->letter].at(rand() % (*word_map)[tile->letter].size()).first;
 	std::vector<int> v = find_letter_indices(s, tile->letter);
-	std::cout << s << std::endl;
+	//std::cout << s << std::endl;
 	//for(int i = 0 ; i < v.size(); i++){
 		//std::cout << v[i] << std::endl;
 	//}
 	int tile_index = v[rand() % v.size()];
 	if(tile->is_horiz){
 		 word_t w(tile_texture, s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false , word_list, false, word_map);
-		 tile->crossing_word = &w;
+		 tile->crossing_word = &word_list->back();
+		 //std::cout << &w << std::endl;
 		 return w;
 	} else {
 		word_t w(tile_texture, s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, word_list, false, word_map);
-		 tile->crossing_word = &w;
+		 tile->crossing_word = &word_list->back();
+		 //std::cout <<&w  << std::endl;
 		 return w;
 	}
 
 	
 }
+void crossword_dfs(word_t *root_word, std::set<word_t*> *visited_words, sf::RenderWindow *window){
+	visited_words->insert(root_word);
+	draw_word(*root_word, window);
+	for(auto it = root_word->tiles.begin(); it != root_word->tiles.end(); ++it){
+				//visit it
+		std::cout << it->letter;
+		std::cout << it->crossing_word;
+		std::cout << it->crossing_word->word;
+		
+		//std::cout << ,c 
+		std::cout << it->crossing_word->tiles.size()<< std::endl;
+		draw_word(*(it->crossing_word), window);
+		//if(it->crossing_word != NULL and visited_words->find(it->crossing_word) == visited_words->end()){
+
+			//crossword_dfs(it->crossing_word, visited_words);
+		//}
+	}
+}
+
+		
 

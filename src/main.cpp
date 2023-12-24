@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <map>
+#include <set>
 #include <vector>
 #include <string>
 #include <utility>
@@ -35,9 +36,10 @@ int main() {
 	auto it = word_map.begin();
     std::advance(it, rand() %(word_map.size()-1));
 	std::list<word_t> word_list;
-	std::string start_word = it->second.at(rand() % it->second.size()).first;
-	std::cout << start_word << std::endl << std::endl;
-	word_t(&tile_texture,start_word,3*TILE_WIDTH, HEIGHT/2,true, &word_list, true, &word_map);
+	std::string start_word_str = it->second.at(rand() % it->second.size()).first;
+	std::cout << start_word_str << std::endl << std::endl;
+	word_t start_word(&tile_texture,start_word_str,3*TILE_WIDTH, HEIGHT/2,true, &word_list, true, &word_map);
+	std::set<word_t*> visited_words;
 	//word_t second_word = generate_clue(&(*(root_word.tiles.begin())), &word_map, &tile_texture);
 	//(*(root_word.tiles.begin())).crossing_word = &second_word;
 	enum class state_t{
@@ -87,10 +89,12 @@ int main() {
 				break;
 			case state_t::PLAYING:
 				//word_t word(&tile_texture, word_map['a'].at(rand() % word_map['a'].size()).first, 100, 100,0);
-				for(auto it = word_list.begin(); it != word_list.end(); ++it){
-					draw_word(*it, &window);
+				//for(auto it = word_list.begin(); it != word_list.end(); ++it){
+					//draw_word(*it, &window);
 					
-				}
+				//}
+				
+				crossword_dfs(&start_word, &visited_words, &window);
 				//draw_word(*(word_list.begin()), &window);
 				//draw_word(*(word_list.begin()++), &window);
 				//draw_word(*(word_list.begin()++), &window);
