@@ -6,10 +6,12 @@ class tile_t{
     public:
         sf::Sprite sprite;
     	sf::Vector2f pos;
-    tile_t(sf::Sprite s, float x, float y, char l, int is_horiz);
+		sf::Sprite blank_tile;
+    tile_t(sf::Sprite s, float x, float y, char l, int is_horiz, sf::Sprite b);
 	word_t *crossing_word = NULL;
 	int is_horiz;
 	char letter;
+	
 };
 
 

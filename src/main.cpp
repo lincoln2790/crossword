@@ -29,6 +29,9 @@ int main() {
 
 	sf::Sprite sprite;
 	sprite.setTexture(tile_texture);
+	sf::Sprite blank_tile;
+	blank_tile.setTexture(tile_texture);
+	blank_tile.setTextureRect(sf::IntRect(0, 0, TILE_WIDTH*TILE_SCALE, TILE_HEIGHT*TILE_SCALE));
 	int num_words;
 	
 	std::map<char,std::vector<std::pair<std::string, int>>> word_map = read_file(&num_words);
@@ -83,7 +86,7 @@ int main() {
 					
 			}
 		}
-		window.clear(sf::Color::White);
+		window.clear(sf::Color::Black);
 		switch(game_state){
 			case state_t::IDLE:
 				break;
@@ -94,7 +97,8 @@ int main() {
 					
 				//}
 				
-				crossword_dfs(&start_word, &visited_words, &window);
+				crossword_dfs(&start_word, &visited_words, &window,false);
+				crossword_dfs(&start_word, &visited_words, &window, true);
 				//draw_word(*(word_list.begin()), &window);
 				//draw_word(*(word_list.begin()++), &window);
 				//draw_word(*(word_list.begin()++), &window);

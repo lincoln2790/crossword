@@ -10,6 +10,13 @@
 #include "../include/func.hpp"
 sf::Sprite get_tile(char letter, sf::Texture *tile_texture){
 	int x,y;
+	if(letter == 0) {
+		sf::Sprite blank_tile;
+		blank_tile.setTexture(*tile_texture);
+		blank_tile.setScale(TILE_SCALE,TILE_SCALE);
+		blank_tile.setTextureRect(sf::IntRect(0, 0, TILE_WIDTH, TILE_HEIGHT));
+		return blank_tile;
+	}
 	if(letter >= 'a') letter = letter - 32;
 	x = TILE_WIDTH*((3 + (letter - 'A'))%15);
 	y = TILE_HEIGHT*(2 + ((3 + (letter - 'A')) >= 15));
@@ -21,7 +28,9 @@ sf::Sprite get_tile(char letter, sf::Texture *tile_texture){
 }
 void draw_word(word_t word, sf::RenderWindow *window){
 	for(std::list<tile_t>::iterator it = word.tiles.begin(); it != word.tiles.end(); ++it){
-		window->draw(it->sprite);
+		if(word.is_correct) window->draw(it->sprite);
+		else window->draw(it->blank_tile);
+		//window->draw(it->blank_tile);
 	}
 }
 
@@ -84,22 +93,18 @@ word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::stri
 
 	
 }
-void crossword_dfs(word_t *root_word, std::set<word_t*> *visited_words, sf::RenderWindow *window){
+void crossword_dfs(word_t *root_word, std::set<word_t*> *visited_words, sf::RenderWindow *window, int is_correct){
 	visited_words->insert(root_word);
-	draw_word(*root_word, window);
+	if(root_word->is_correct == is_correct) draw_word(*root_word, window);
 	for(auto it = root_word->tiles.begin(); it != root_word->tiles.end(); ++it){
-				//visit it
-		std::cout << it->letter;
-		std::cout << it->crossing_word;
-		std::cout << it->crossing_word->word;
-		
-		//std::cout << ,c 
-		std::cout << it->crossing_word->tiles.size()<< std::endl;
-		draw_word(*(it->crossing_word), window);
-		//if(it->crossing_word != NULL and visited_words->find(it->crossing_word) == visited_words->end()){
+		for(auto it : *visited_words){
+		}
+		if(it->crossing_word != NULL ) {
+		//if((it->crossing_word != NULL) and (visited_words->find(it->crossing_word) == visited_words->end())){
 
-			//crossword_dfs(it->crossing_word, visited_words);
-		//}
+			//draw_word(*(it->crossing_word), window);
+			crossword_dfs(it->crossing_word, visited_words, window, is_correct);
+		}
 	}
 }
 
