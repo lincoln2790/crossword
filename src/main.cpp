@@ -41,11 +41,14 @@ int main() {
     std::advance(it, rand() %(word_map.size()-1));
 	std::list<word_t> word_list;
 	std::string start_word_str = it->second.at(rand() % it->second.size()).first;
-	std::cout << start_word_str << std::endl << std::endl;
+	//std::cout << start_word_str << std::endl << std::endl;
 	word_t start_word(&tile_texture,start_word_str,3*TILE_WIDTH, HEIGHT/2,true, &word_list, true, &word_map);
-	std::cout << word_list.front().word;
+	//std::cout << word_list.front().word;
 	cursor_t cursor(&(word_list.front()));
 	std::set<word_t*> visited_words;
+	for(auto it :word_list){
+		std::cout << it.word << std::flush <<std::endl;
+	}
 	//word_t second_word = generate_clue(&(*(root_word.tiles.begin())), &word_map, &tile_texture);
 	//(*(root_word.tiles.begin())).crossing_word = &second_word;
 	enum class state_t{
@@ -68,6 +71,7 @@ int main() {
 							if(event.type == sf::Event::KeyPressed){
 								if(event.key.code == sf::Keyboard::Key::Space){
 									game_state = state_t::PLAYING;
+									continue;
 								}
 							}
 							
@@ -85,14 +89,25 @@ int main() {
 					}
 					break;
 				case sf::Event::TextEntered:
-
+					switch(game_state){
+						case state_t::IDLE:
+							break;
+						case state_t::PLAYING:
 							if(event.type == sf::Event::TextEntered){
 								//cursor.tile->cursor_letter = event.text.unicode;
-								cursor.tile_it->cursor_letter = event.text.unicode;
-								do{
+								if(event.text.unicode >= 'a' && event.text.unicode <= 'z'){
+									cursor.tile_it->cursor_letter = event.text.unicode;
+									check_cursor_word(&cursor);
 									std::advance(cursor.tile_it, 1);
-								} while(cursor.tile_it->is_correct);
+									while(cursor.tile_it == cursor.word->tiles.end() || cursor.tile_it->is_correct){
+										std::advance(cursor.tile_it, 1);
+									}
+								}
 							}
+							break;
+						default:
+							break;
+					}
 				default:
 					break;
 					

@@ -12,3 +12,4 @@ void crossword_dfs(word_t *root_word, std::set<word_t*> *visited_words, sf::Rend
 word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::string, int>>>* word_map, sf::Texture *tile_texture, std::list<word_t> *word_list);
 void draw_word(word_t word, sf::RenderWindow *window);
 void draw_cursor_word(cursor_t *cursor, sf::RenderWindow *window, sf::Texture *tile_texture);
+int check_cursor_word(cursor_t *cursor);

@@ -82,13 +82,17 @@ word_t generate_clue(tile_t* tile, std::map<char,std::vector<std::pair<std::stri
 	int tile_index = v[rand() % v.size()];
 	if(tile->is_horiz){
 		 word_t w(tile_texture, s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false , word_list, false, word_map);
+		 auto it = word_list->back().tiles.begin();
+		 std::advance(it, tile_index);
+		 it->is_correct = true;
 		 tile->crossing_word = &word_list->back();
-		 //std::cout << &w << std::endl;
 		 return w;
 	} else {
 		word_t w(tile_texture, s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, word_list, false, word_map);
 		 tile->crossing_word = &word_list->back();
-		 //std::cout <<&w  << std::endl;
+		 auto it = word_list->back().tiles.begin();
+		 std::advance(it, tile_index);
+		 it->is_correct = true;
 		 return w;
 	}
 
@@ -118,4 +122,14 @@ void draw_cursor_word(cursor_t *cursor, sf::RenderWindow *window, sf::Texture *t
 		if(it != cursor->tile_it) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
 		window->draw(cursor_tile, tile_texture);
 	}
+}
+int check_cursor_word(cursor_t *cursor){
+	for(auto it = cursor->word->tiles.begin(); it != cursor->word->tiles.end(); ++it){
+		std::cout <<it->is_correct;
+
+		if(!(it->is_correct)) return false;
+	}
+	std::cout << "CORRECT";
+
+	return true;
 }
