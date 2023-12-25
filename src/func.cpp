@@ -124,12 +124,14 @@ void draw_cursor_word(cursor_t *cursor, sf::RenderWindow *window, sf::Texture *t
 	}
 }
 int check_cursor_word(cursor_t *cursor){
-	for(auto it = cursor->word->tiles.begin(); it != cursor->word->tiles.end(); ++it){
-		std::cout <<it->is_correct;
-
-		if(!(it->is_correct)) return false;
+	auto it = cursor->word->tiles.begin();
+	do{
+		if(!(it->cursor_letter == it->letter || it->is_correct)) {
+			return false;
+		}
+		++it;
 	}
-	std::cout << "CORRECT";
+	while( it != cursor->word->tiles.end());
 
 	return true;
 }

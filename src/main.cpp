@@ -89,6 +89,7 @@ int main() {
 					}
 					break;
 				case sf::Event::TextEntered:
+					
 					switch(game_state){
 						case state_t::IDLE:
 							break;
@@ -97,11 +98,23 @@ int main() {
 								//cursor.tile->cursor_letter = event.text.unicode;
 								if(event.text.unicode >= 'a' && event.text.unicode <= 'z'){
 									cursor.tile_it->cursor_letter = event.text.unicode;
-									check_cursor_word(&cursor);
-									std::advance(cursor.tile_it, 1);
-									while(cursor.tile_it == cursor.word->tiles.end() || cursor.tile_it->is_correct){
-										std::advance(cursor.tile_it, 1);
+									
+									if(check_cursor_word(&cursor)){
+										std::cout << "CORRECT\n" <<std::flush;
+										cursor.word->is_correct = true;
 									}
+									std::advance(cursor.tile_it, 1);
+																		
+									while(cursor.tile_it == (cursor.word->tiles.end()) || cursor.tile_it->is_correct){
+										if(cursor.tile_it == cursor.word->tiles.end()){
+											cursor.tile_it = cursor.word->tiles.begin();
+										}
+										if(cursor.tile_it->is_correct){
+											std::advance(cursor.tile_it, 1);
+										}
+
+									}
+
 								}
 							}
 							break;
