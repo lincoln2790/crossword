@@ -7,6 +7,7 @@
 #include "../include/const.hpp"
 #include "../include/word.hpp"
 #include "../include/tile.hpp"
+#include "../include/cursor.hpp"
 #include "../include/func.hpp"
 sf::Sprite get_tile(char letter, sf::Texture *tile_texture){
 	int x,y;
@@ -110,3 +111,11 @@ void crossword_dfs(word_t *root_word, std::set<word_t*> *visited_words, sf::Rend
 
 		
 
+void draw_cursor_word(cursor_t *cursor, sf::RenderWindow *window, sf::Texture *tile_texture){
+	for(auto it = cursor->word->tiles.begin(); it != cursor->word->tiles.end();++it){
+		sf::Sprite cursor_tile = get_tile(it->cursor_letter, tile_texture);
+		cursor_tile.setPosition(it->pos);
+		if(it != cursor->tile_it) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
+		window->draw(cursor_tile, tile_texture);
+	}
+}

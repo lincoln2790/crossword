@@ -13,6 +13,7 @@
 #include "../include/const.hpp"
 #include "../include/tile.hpp"
 #include "../include/word.hpp"
+#include "../include/cursor.hpp"
 #include "../include/func.hpp"
 int main() {
 
@@ -42,6 +43,8 @@ int main() {
 	std::string start_word_str = it->second.at(rand() % it->second.size()).first;
 	std::cout << start_word_str << std::endl << std::endl;
 	word_t start_word(&tile_texture,start_word_str,3*TILE_WIDTH, HEIGHT/2,true, &word_list, true, &word_map);
+	std::cout << word_list.front().word;
+	cursor_t cursor(&(word_list.front()));
 	std::set<word_t*> visited_words;
 	//word_t second_word = generate_clue(&(*(root_word.tiles.begin())), &word_map, &tile_texture);
 	//(*(root_word.tiles.begin())).crossing_word = &second_word;
@@ -67,9 +70,9 @@ int main() {
 									game_state = state_t::PLAYING;
 								}
 							}
+							
 							break;
 						case state_t::PLAYING:
-							
 							//if(event.type == sf::Event::KeyPressed){
 								//if(event.key.code == sf::Keyboard::Key::Space){
 									//view.move(sf::Vector2f(10.f, 10.f));
@@ -81,6 +84,15 @@ int main() {
 							break;
 					}
 					break;
+				case sf::Event::TextEntered:
+
+							if(event.type == sf::Event::TextEntered){
+								//cursor.tile->cursor_letter = event.text.unicode;
+								cursor.tile_it->cursor_letter = event.text.unicode;
+								do{
+									std::advance(cursor.tile_it, 1);
+								} while(cursor.tile_it->is_correct);
+							}
 				default:
 					break;
 					
@@ -98,6 +110,7 @@ int main() {
 				//}
 				
 				crossword_dfs(&start_word, &visited_words, &window,false);
+				draw_cursor_word(&cursor, &window, &tile_texture);
 				crossword_dfs(&start_word, &visited_words, &window, true);
 				//draw_word(*(word_list.begin()), &window);
 				//draw_word(*(word_list.begin()++), &window);
