@@ -1,5 +1,6 @@
 #ifndef TILE_H
 #define TILE_H
+#include <SFML/Graphics.hpp>
 #include "word.hpp"
 class word_t;
 class tile_t{
@@ -13,6 +14,7 @@ class tile_t{
 	int is_correct;
 	char letter;
 	char cursor_letter;
+	static void get_tile_sprite(char c);
 	
 };
 
