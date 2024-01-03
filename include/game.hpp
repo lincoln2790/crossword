@@ -27,6 +27,10 @@ class game_t{
 		sf::Sprite get_tile_sprite(char letter);
 		
 		void build_sprite_map();
+		void build_word_map();
+		void get_start_word();
+		void draw_word(word_t word);
+
 
 		
 		

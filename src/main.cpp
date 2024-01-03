@@ -28,6 +28,18 @@ int main() {
 					break;
 			}
 		}
+		game.window.clear(sf::Color::Black);
+		for(auto word : game.word_list){
+			game.draw_word(word);
+			//game.window.draw(game.sprite_map['a']);
+			//std::cout << word.word << std::endl;
+			//std::cout << word.tiles.front().sprite;
+
+
+
+		}
+		game.window.display();
+		
 	}
 	return 0;
 }
