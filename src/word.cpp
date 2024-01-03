@@ -27,7 +27,7 @@ word_t::word_t(std::string letters, float x, float y, int is_horiz, int is_corre
 			tiles.push_back(tile);
 		}
 		if(is_correct){
-			//word_t w = generate_clue(&tiles.back(), word_map,tile_texture, word_list);
+			game->generate_clue(&tiles.back());
 		}
 	}
 	game->word_list.push_back(*this);

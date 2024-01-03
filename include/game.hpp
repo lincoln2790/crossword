@@ -2,6 +2,8 @@
 #define GAME_HPP
 
 #include <list>
+#include <vector>
+#include <string>
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "../include/const.hpp"
@@ -12,7 +14,6 @@
 
 class game_t{	
 	public:
-		game_t();
 		sf::RenderWindow window;
 		sf::Texture tile_texture;
 		std::map<char, sf::Sprite> sprite_map;
@@ -23,19 +24,15 @@ class game_t{
 			PLAYING
 		} state;
 
-
+		game_t();
 		sf::Sprite get_tile_sprite(char letter);
-		
 		void build_sprite_map();
 		void build_word_map();
 		void get_start_word();
 		void draw_word(word_t word);
+		std::vector<int> find_letter_indices(std::string s, char c);
+		void generate_clue(tile_t *tile);
+		
 
-
-		
-		
-		
-		
-	
 };
 #endif

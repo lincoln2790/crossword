@@ -22,11 +22,54 @@ int main() {
 	while(game.window.isOpen()){
 		sf::Event event;
 		while(game.window.pollEvent(event)){
+			// events that can occur during all game states
 			switch(event.type){
 				case sf::Event::Closed:
 					game.window.close();
 					break;
 			}
+			
+			switch(game.state){
+				case game.state_t::IDLE:
+					switch(event.type){
+						case sf::Event::KeyPressed:
+							switch(event.key.code){
+								case sf::Keyboard::Key::Space:
+									game.state = game.state_t::PLAYING;
+									continue;
+									//break;
+							}
+					}
+					break;
+
+				case game.state_t::PLAYING:
+					//switch(event.type){
+						//case sf::Event::TextEntered:
+								////cursor.tile->cursor_letter = event.text.unicode;
+							//if(event.text.unicode >= 'a' && event.text.unicode <= 'z'){
+								//cursor.tile_it->cursor_letter = event.text.unicode;
+									
+									//if(check_cursor_word(&cursor)){
+										//std::cout << "CORRECT\n" <<std::flush;
+										//cursor.word->is_correct = true;
+									//}
+									//std::advance(cursor.tile_it, 1);
+																		
+									//while(cursor.tile_it == (cursor.word->tiles.end()) || cursor.tile_it->is_correct){
+										//if(cursor.tile_it == cursor.word->tiles.end()){
+											//cursor.tile_it = cursor.word->tiles.begin();
+										//}
+										//if(cursor.tile_it->is_correct){
+											//std::advance(cursor.tile_it, 1);
+										//}
+
+
+
+							//break;
+					//}
+					break;
+			}
+
 		}
 		game.window.clear(sf::Color::Black);
 		for(auto word : game.word_list){
@@ -34,9 +77,6 @@ int main() {
 			//game.window.draw(game.sprite_map['a']);
 			//std::cout << word.word << std::endl;
 			//std::cout << word.tiles.front().sprite;
-
-
-
 		}
 		game.window.display();
 		

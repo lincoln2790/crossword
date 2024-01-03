@@ -108,3 +108,38 @@ void game_t::draw_word(word_t word){
 		//window->draw(it->blank_tile);
 	}
 }
+
+std::vector<int> game_t::find_letter_indices(std::string s, char c){
+	std::vector<int> v;
+	for(int i = 0; i < s.size(); i++){
+		if(s[i] == c) v.push_back(i);
+	}
+	return v;
+}
+
+void game_t::generate_clue(tile_t* tile){
+	int rand_ind = rand() % word_map[tile->letter].size();
+	std::string s = word_map[tile->letter].at(rand_ind).first;
+	std::cout << s;
+	std::cout << " | ";
+	std::cout << tile->letter << std::endl;
+	std::vector<int> v = find_letter_indices(s, tile->letter);
+	int tile_index = v[rand() % v.size()];
+	if(tile->is_horiz){
+		 word_t w(s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
+		 //auto it = word_list->back().tiles.begin();
+		 //std::advance(it, tile_index);
+		 //it->is_correct = true;
+		 tile->crossing_word = &(word_list.back());
+		 //return w;
+	} else {
+		word_t w(s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, false, this);
+		 tile->crossing_word = &(word_list.back());
+		 //auto it = word_list->back().tiles.begin();
+		 //std::advance(it, tile_index);
+		 //it->is_correct = true;
+		 //return w;
+	}
+
+	
+}
