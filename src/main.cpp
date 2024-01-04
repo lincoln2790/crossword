@@ -43,40 +43,44 @@ int main() {
 					break;
 
 				case game.state_t::PLAYING:
-					//switch(event.type){
-						//case sf::Event::TextEntered:
-								////cursor.tile->cursor_letter = event.text.unicode;
-							//if(event.text.unicode >= 'a' && event.text.unicode <= 'z'){
-								//cursor.tile_it->cursor_letter = event.text.unicode;
+					switch(event.type){
+						case sf::Event::TextEntered:
+								//cursor.tile->cursor_letter = event.text.unicode;
+							if(event.text.unicode >= 'a' && event.text.unicode <= 'z'){
+								game.cursor.tile_it->cursor_letter = event.text.unicode;
 									
-									//if(check_cursor_word(&cursor)){
-										//std::cout << "CORRECT\n" <<std::flush;
-										//cursor.word->is_correct = true;
-									//}
-									//std::advance(cursor.tile_it, 1);
-																		
-									//while(cursor.tile_it == (cursor.word->tiles.end()) || cursor.tile_it->is_correct){
-										//if(cursor.tile_it == cursor.word->tiles.end()){
-											//cursor.tile_it = cursor.word->tiles.begin();
-										//}
-										//if(cursor.tile_it->is_correct){
-											//std::advance(cursor.tile_it, 1);
-										//}
-
-
-
-							//break;
-					//}
+								//if(check_cursor_word(&(game.cursor))){
+									//std::cout << "CORRECT\n" <<std::flush;
+									//game.cursor.word->is_correct = true;
+								//}
+								std::advance(game.cursor.tile_it, 1);
+																	
+								while(game.cursor.tile_it == (game.cursor.word->tiles.end()) || game.cursor.tile_it->is_correct){
+									if(game.cursor.tile_it == game.cursor.word->tiles.end()){
+										game.cursor.tile_it = game.cursor.word->tiles.begin();
+									}
+									if(game.cursor.tile_it->is_correct){
+										std::advance(game.cursor.tile_it, 1);
+									}
+								}
+							}
+							break;
+					}
 					break;
 			}
-
 		}
 		game.window.clear(sf::Color::Black);
-		for(auto word : game.word_list){
-			game.draw_word(word);
-			//game.window.draw(game.sprite_map['a']);
-			//std::cout << word.word << std::endl;
-			//std::cout << word.tiles.front().sprite;
+		switch(game.state){
+			case game.state_t::IDLE:
+				break;
+			case game.state_t::PLAYING:
+			for(auto word : game.word_list){
+				game.draw_word(word);
+				//game.window.draw(game.sprite_map['a']);
+				//std::cout << word.word << std::endl;
+				//std::cout << word.tiles.front().sprite;
+			}
+			game.draw_cursor_word();
 		}
 		game.window.display();
 		

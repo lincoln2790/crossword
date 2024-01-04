@@ -8,7 +8,8 @@ game_t::game_t() :
 	window.setTitle(TITLE);
 	sf::View view(sf::FloatRect(0.f, 0.f, WIDTH, HEIGHT));
 	window.setView(view);
-	
+	//window.setFramerateLimit(60);
+	window.setVerticalSyncEnabled(true);
 	tile_texture.loadFromFile(TILE_SET);
 	tile_texture.setSmooth(true);
 	
@@ -19,6 +20,8 @@ game_t::game_t() :
 	build_sprite_map();
 	build_word_map();
 	get_start_word();
+	cursor.set_pos(&(word_list.front()));
+	
 	//this->sprite_map = sprite_map;
 }
 
@@ -120,26 +123,49 @@ std::vector<int> game_t::find_letter_indices(std::string s, char c){
 void game_t::generate_clue(tile_t* tile){
 	int rand_ind = rand() % word_map[tile->letter].size();
 	std::string s = word_map[tile->letter].at(rand_ind).first;
-	std::cout << s;
-	std::cout << " | ";
-	std::cout << tile->letter << std::endl;
+	//std::cout << s;
+	//std::cout << " | ";
+	//std::cout << tile->letter << std::endl;
 	std::vector<int> v = find_letter_indices(s, tile->letter);
 	int tile_index = v[rand() % v.size()];
 	if(tile->is_horiz){
 		 word_t w(s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
-		 //auto it = word_list->back().tiles.begin();
-		 //std::advance(it, tile_index);
-		 //it->is_correct = true;
+		 auto it = word_list.back().tiles.begin();
+		 std::advance(it, tile_index);
+		 it->is_correct = true;
 		 tile->crossing_word = &(word_list.back());
 		 //return w;
 	} else {
 		word_t w(s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, false, this);
+		 auto it = word_list.back().tiles.begin();
+		 std::advance(it, tile_index);
+		 it->is_correct = true;
 		 tile->crossing_word = &(word_list.back());
-		 //auto it = word_list->back().tiles.begin();
-		 //std::advance(it, tile_index);
-		 //it->is_correct = true;
 		 //return w;
 	}
 
 	
 }
+
+void game_t::draw_cursor_word(){
+	for(auto it = cursor.word->tiles.begin(); it != cursor.word->tiles.end();++it){
+		sf::Sprite cursor_tile = sprite_map[it->cursor_letter];
+		cursor_tile.setPosition(it->pos);
+		if(it != cursor.tile_it) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
+		if(!it->is_correct){
+			window.draw(cursor_tile);
+		}
+	}
+}
+//int check_cursor_word(cursor_t *cursor){
+	//auto it = cursor->word->tiles.begin();
+	//do{
+		//if(!(it->cursor_letter == it->letter || it->is_correct)) {
+			//return false;
+		//}
+		//++it;
+	//}
+	//while( it != cursor->word->tiles.end());
+
+	//return true;
+//}

@@ -11,6 +11,7 @@ class cursor_t{
 	public:
 		word_t *word;
 		std::list<tile_t>::iterator tile_it;
-		cursor_t(word_t *start_word);
+		cursor_t();
+		void set_pos(word_t *start_word);
 };
 #endif

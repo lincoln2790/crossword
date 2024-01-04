@@ -23,6 +23,7 @@ class game_t{
 			IDLE,
 			PLAYING
 		} state;
+		cursor_t cursor;
 
 		game_t();
 		sf::Sprite get_tile_sprite(char letter);
@@ -32,7 +33,7 @@ class game_t{
 		void draw_word(word_t word);
 		std::vector<int> find_letter_indices(std::string s, char c);
 		void generate_clue(tile_t *tile);
-		
+		void draw_cursor_word();
 
 };
 #endif
