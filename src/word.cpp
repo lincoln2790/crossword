@@ -14,7 +14,7 @@ word_t::word_t(std::string letters, float x, float y, int is_horiz, int is_corre
 	{
 	
 	
-	std::cout << letters << std::endl;
+	//std::cout << letters << std::endl;
 	for(int i = 0; i < letters.length(); i++){
 		char l = letters[i];
 		if(is_horiz){

@@ -94,6 +94,7 @@ void game_t::get_start_word(){
 	int rand_word = rand() % (word_map[rand_char].size());
 	std::string start_str = word_map[rand_char][rand_word].first;
 	word_t start_word(start_str,3*TILE_WIDTH, HEIGHT/2,true, true, this);
+	
 
 	//auto it = word_map.begin();
 	//std::advance(it, rand() %(word_map.size()-1));
@@ -134,6 +135,8 @@ void game_t::generate_clue(tile_t* tile){
 		 std::advance(it, tile_index);
 		 it->is_correct = true;
 		 tile->crossing_word = &(word_list.back());
+
+		 std::cout << tile->crossing_word->word << std::endl;
 		 //return w;
 	} else {
 		word_t w(s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, false, this);
@@ -142,6 +145,8 @@ void game_t::generate_clue(tile_t* tile){
 		 it->is_correct = true;
 		 tile->crossing_word = &(word_list.back());
 		 //return w;
+
+		 std::cout << tile->crossing_word->word << std::endl;
 	}
 
 	
@@ -149,23 +154,53 @@ void game_t::generate_clue(tile_t* tile){
 
 void game_t::draw_cursor_word(){
 	for(auto it = cursor.word->tiles.begin(); it != cursor.word->tiles.end();++it){
-		sf::Sprite cursor_tile = sprite_map[it->cursor_letter];
+		sf::Sprite cursor_tile;
+
+		if(cursor.word->is_correct){
+			if(it == cursor.tile_it){
+				cursor_tile = sprite_map[it->letter];
+				//window.draw(cursor_tile);
+			}else{
+				//window.draw(it->sprite);
+			}
+		}else {
+			if(it->is_correct){
+				cursor_tile = sprite_map[it->letter];
+			}else {
+				cursor_tile = sprite_map[it->cursor_letter];
+			}
+			//window.draw(cursor_tile);
+		}
+
 		cursor_tile.setPosition(it->pos);
-		if(it != cursor.tile_it) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
-		if(!it->is_correct){
+
+		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
+		else if(it == cursor.tile_it)   cursor_tile.setColor(sf::Color(255, 0, 0, 128));
+
+		//if(!it->is_correct){
+			//window.draw(cursor_tile);
+		//if((cursor.word->is_correct && it == cursor.tile_it) ||(!cursor.word->is_correct)){
+			//window.draw(cursor_tile);
+		//}else if(cursor.word->is_correct){
+			//window.draw(it->sprite);
+		//}
+
+		if(cursor.word->is_correct){
+			if(it == cursor.tile_it){
+				//cursor_tile = sprite_map[it->letter];
+				window.draw(cursor_tile);
+			}else{
+				window.draw(it->sprite);
+			}
+		}else {
+			if(it->is_correct){
+				//cursor_tile = sprite_map[it->letter];
+			}else {
+				//cursor_tile = sprite_map[it->cursor_letter];
+			}
 			window.draw(cursor_tile);
 		}
 	}
+	//cursor.tile_it->sprite.setColor(sf::Color(255,0,0,128));
+	//window.draw(cursor.tile_it->sprite);
 }
-//int check_cursor_word(cursor_t *cursor){
-	//auto it = cursor->word->tiles.begin();
-	//do{
-		//if(!(it->cursor_letter == it->letter || it->is_correct)) {
-			//return false;
-		//}
-		//++it;
-	//}
-	//while( it != cursor->word->tiles.end());
-
-	//return true;
-//}

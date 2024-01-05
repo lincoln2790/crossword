@@ -5,10 +5,10 @@
 class word_t;
 class tile_t{
     public:
-        sf::Sprite sprite;
-    	sf::Vector2f pos;
-		sf::Sprite blank_tile;
-	word_t *crossing_word = NULL;
+	sf::Sprite sprite;
+	sf::Vector2f pos;
+	sf::Sprite blank_tile;
+	word_t *crossing_word;
 	int is_horiz;
 	int is_correct;
 	char letter;
