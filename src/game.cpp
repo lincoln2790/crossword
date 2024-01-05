@@ -121,32 +121,42 @@ std::vector<int> game_t::find_letter_indices(std::string s, char c){
 	return v;
 }
 
-void game_t::generate_clue(tile_t* tile){
-	int rand_ind = rand() % word_map[tile->letter].size();
-	std::string s = word_map[tile->letter].at(rand_ind).first;
+void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index){
+	
+	int rand_ind = rand() % word_map[(*tile_it)->letter].size();
+	std::string s = word_map[(*tile_it)->letter].at(rand_ind).first;
 	//std::cout << s;
 	//std::cout << " | ";
 	//std::cout << tile->letter << std::endl;
-	std::vector<int> v = find_letter_indices(s, tile->letter);
+	std::vector<int> v = find_letter_indices(s, (*tile_it)->letter);
 	int tile_index = v[rand() % v.size()];
-	if(tile->is_horiz){
-		 word_t w(s, tile->pos.x,tile->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
+	if((*tile_it)->is_horiz){
+		 word_t w(s, (*tile_it)->pos.x,(*tile_it)->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
 		 auto it = word_list.back().tiles.begin();
 		 std::advance(it, tile_index);
 		 it->is_correct = true;
-		 tile->crossing_word = &(word_list.back());
+		 (*tile_it)->crossing_word = &(word_list.back());
 
-		 std::cout << tile->crossing_word->word << std::endl;
+		 auto it_cross = (*tile_it)->crossing_word->tiles.begin();
+		 std::advance(it_cross, tile_index);
+		 it_cross->is_correct = true;
+		 it_cross->crossing_word = cursor.word;
+
+		 std::cout << (*tile_it)->crossing_word->word << std::endl;
 		 //return w;
 	} else {
-		word_t w(s, tile->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,tile->pos.y, true, false, this);
+		word_t w(s, (*tile_it)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it)->pos.y, true, false, this);
 		 auto it = word_list.back().tiles.begin();
 		 std::advance(it, tile_index);
 		 it->is_correct = true;
-		 tile->crossing_word = &(word_list.back());
+		 (*tile_it)->crossing_word = &(word_list.back());
+		 auto it_cross = (*tile_it)->crossing_word->tiles.begin();
+		 std::advance(it_cross, tile_index);
+		 it_cross->is_correct = true;
+		 it_cross->crossing_word = cursor.word;
 		 //return w;
 
-		 std::cout << tile->crossing_word->word << std::endl;
+		 std::cout << (*tile_it)->crossing_word->word << std::endl;
 	}
 
 	

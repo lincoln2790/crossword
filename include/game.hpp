@@ -34,6 +34,7 @@ class game_t{
 		std::vector<int> find_letter_indices(std::string s, char c);
 		void generate_clue(tile_t *tile);
 		void draw_cursor_word();
+		void generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index);
 
 };
 #endif
