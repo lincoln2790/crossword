@@ -8,21 +8,14 @@ game_t::game_t() :
 	window.setTitle(TITLE);
 	sf::View view(sf::FloatRect(0.f, 0.f, WIDTH, HEIGHT));
 	window.setView(view);
-	//window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(true);
 	tile_texture.loadFromFile(TILE_SET);
 	tile_texture.setSmooth(true);
 	
-	//word_list.push_back(start_word);
-	//std::map<char,std::vector<std::pair<std::string, int>>> word_map = build_word_map();
-	//this->word_map = word_map;
-
 	build_sprite_map();
 	build_word_map();
 	get_start_word();
 	cursor.set_pos(&(word_list.front()));
-	
-	//this->sprite_map = sprite_map;
 }
 
 
@@ -49,9 +42,7 @@ void game_t::build_sprite_map(){
 	for(char c = 'a'; c <= 'z'; c++){
 		sprite_map.insert(std::make_pair(c, get_tile_sprite(c)));
 	}
-
 	sprite_map.insert(std::make_pair(0, get_tile_sprite(0)));
-
 }
 
 
@@ -67,11 +58,9 @@ void game_t::build_word_map(){
 	while (file >> word){
 		for(int i = 0; i < word.length(); i++){
 			std::pair<std::string, int> pair(word, w);
-			//if(std::find(word_map[word[i]].begin(), word_map[word[i]].end(), pair) == word_map[word[i]].end()){
 			if(word_map[word[i]].empty() || word_map[word[i]].back() != pair){
 				word_map[word[i]].push_back(pair);
 			}
-				//std::cout << pair.first << std::endl;
 		}
 		w++;
 	}
@@ -94,14 +83,6 @@ void game_t::get_start_word(){
 	int rand_word = rand() % (word_map[rand_char].size());
 	std::string start_str = word_map[rand_char][rand_word].first;
 	word_t start_word(start_str,3*TILE_WIDTH, HEIGHT/2,true, true, this);
-	
-
-	//auto it = word_map.begin();
-	//std::advance(it, rand() %(word_map.size()-1));
-	//std::list<word_t> word_list;
-	//std::string start_word_str = it->second.at(rand() % it->second.size()).first;
-	////std::cout << start_word_str << std::endl << std::endl;
-	//word_t start_word(&tile_texture,start_word_str,3*TILE_WIDTH, HEIGHT/2,true, &word_list, true, &word_map);
 }
 
 void game_t::draw_word(word_t word){
@@ -122,43 +103,28 @@ std::vector<int> game_t::find_letter_indices(std::string s, char c){
 }
 
 void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index){
-	
 	int rand_ind = rand() % word_map[(*tile_it)->letter].size();
 	std::string s = word_map[(*tile_it)->letter].at(rand_ind).first;
-	//std::cout << s;
-	//std::cout << " | ";
-	//std::cout << tile->letter << std::endl;
 	std::vector<int> v = find_letter_indices(s, (*tile_it)->letter);
 	int tile_index = v[rand() % v.size()];
+	
 	if((*tile_it)->is_horiz){
 		 word_t w(s, (*tile_it)->pos.x,(*tile_it)->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
-		 auto it = word_list.back().tiles.begin();
-		 std::advance(it, tile_index);
-		 it->is_correct = true;
-		 (*tile_it)->crossing_word = &(word_list.back());
-
-		 auto it_cross = (*tile_it)->crossing_word->tiles.begin();
-		 std::advance(it_cross, tile_index);
-		 it_cross->is_correct = true;
-		 it_cross->crossing_word = cursor.word;
-
-		 std::cout << (*tile_it)->crossing_word->word << std::endl;
-		 //return w;
 	} else {
 		word_t w(s, (*tile_it)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it)->pos.y, true, false, this);
-		 auto it = word_list.back().tiles.begin();
-		 std::advance(it, tile_index);
-		 it->is_correct = true;
-		 (*tile_it)->crossing_word = &(word_list.back());
-		 auto it_cross = (*tile_it)->crossing_word->tiles.begin();
-		 std::advance(it_cross, tile_index);
-		 it_cross->is_correct = true;
-		 it_cross->crossing_word = cursor.word;
-		 //return w;
-
-		 std::cout << (*tile_it)->crossing_word->word << std::endl;
 	}
+	
+	 auto it = word_list.back().tiles.begin();
+	 std::advance(it, tile_index);
+	 it->is_correct = true;
+	 (*tile_it)->crossing_word = &(word_list.back());
 
+	 auto it_cross = (*tile_it)->crossing_word->tiles.begin();
+	 std::advance(it_cross, tile_index);
+	 it_cross->is_correct = true;
+	 it_cross->crossing_word = cursor.word;
+
+	 std::cout << (*tile_it)->crossing_word->word << std::endl;
 	
 }
 
@@ -169,9 +135,6 @@ void game_t::draw_cursor_word(){
 		if(cursor.word->is_correct){
 			if(it == cursor.tile_it){
 				cursor_tile = sprite_map[it->letter];
-				//window.draw(cursor_tile);
-			}else{
-				//window.draw(it->sprite);
 			}
 		}else {
 			if(it->is_correct){
@@ -179,7 +142,6 @@ void game_t::draw_cursor_word(){
 			}else {
 				cursor_tile = sprite_map[it->cursor_letter];
 			}
-			//window.draw(cursor_tile);
 		}
 
 		cursor_tile.setPosition(it->pos);
@@ -187,30 +149,54 @@ void game_t::draw_cursor_word(){
 		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
 		else if(it == cursor.tile_it)   cursor_tile.setColor(sf::Color(255, 0, 0, 128));
 
-		//if(!it->is_correct){
-			//window.draw(cursor_tile);
-		//if((cursor.word->is_correct && it == cursor.tile_it) ||(!cursor.word->is_correct)){
-			//window.draw(cursor_tile);
-		//}else if(cursor.word->is_correct){
-			//window.draw(it->sprite);
-		//}
-
 		if(cursor.word->is_correct){
 			if(it == cursor.tile_it){
-				//cursor_tile = sprite_map[it->letter];
 				window.draw(cursor_tile);
 			}else{
 				window.draw(it->sprite);
 			}
 		}else {
-			if(it->is_correct){
-				//cursor_tile = sprite_map[it->letter];
-			}else {
-				//cursor_tile = sprite_map[it->cursor_letter];
-			}
 			window.draw(cursor_tile);
 		}
 	}
-	//cursor.tile_it->sprite.setColor(sf::Color(255,0,0,128));
-	//window.draw(cursor.tile_it->sprite);
 }
+
+//void game_t::move( sf::Keyboard::Key key){
+	//switch(key){
+		
+	//case sf::Event::KeyPressed
+		//switch(event.key.code){
+			//case sf::Keyboard::Key::Up :
+				//if(!game.cursor.word->is_horiz){
+					//std::advance(game.cursor.tile_it,-1);
+				//} else if(game.cursor.tile_it->crossing_word != NULL){
+					//game.cursor.word = game.cursor.tile_it->crossing_word;
+					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
+				//}
+				//break;
+			//case sf::Keyboard::Key::Down :
+				//if(!game.cursor.word->is_horiz){
+					//std::advance(game.cursor.tile_it,1);
+				//} else if(game.cursor.tile_it->crossing_word != NULL){
+					//game.cursor.word = game.cursor.tile_it->crossing_word;
+					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
+				//}
+				//break;
+			//case sf::Keyboard::Key::Left :
+				//if(game.cursor.word->is_horiz){
+					//std::advance(game.cursor.tile_it,-1);
+				//} else if(game.cursor.tile_it->crossing_word != NULL) {
+					//game.cursor.word = game.cursor.tile_it->crossing_word;
+					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
+				//}
+				//break;
+			//case sf::Keyboard::Key::Right :
+				//if(game.cursor.word->is_horiz){
+					//std::advance(game.cursor.tile_it,1);
+				//} else if(game.cursor.tile_it->crossing_word != NULL){
+					////std::cout << game.cursor.tile_it->crossing_word;
+					//game.cursor.word = game.cursor.tile_it->crossing_word;
+					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
+				//}
+				//break;
+
