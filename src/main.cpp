@@ -47,23 +47,21 @@ int main() {
 								//cursor.tile->cursor_letter = event.text.unicode;
 							if((!game.cursor.word->is_correct) && (event.text.unicode >= 'a' && event.text.unicode <= 'z')){
 								game.cursor.tile_it->cursor_letter = event.text.unicode;
-									
 								if(game.cursor.check()){
 									std::cout << "CORRECT\n" <<std::flush;
-									//for(auto it : game.cursor.w
-									//for(auto it : game.cursor.word->tiles){
 									int cursor_index = 0;
 									for(auto it = game.cursor.word->tiles.begin(); it != game.cursor.word->tiles.end(); ++it){
-
-										it->is_correct = true;
-										if(it->is_correct){
-											game.generate_clue(&it, cursor_index);
+										if(!it->is_correct){
+											game.generate_clue(&it, cursor_index, game.cursor.word);
+											it->is_correct = true;
 										}
 										//std::cout << it.crossing_word;
 										cursor_index++;
 
 									}
 									game.cursor.word->is_correct = true;
+									game.cursor.tile_it = game.cursor.word->tiles.begin();
+									continue;
 								}
 								std::advance(game.cursor.tile_it, 1);
 																	
@@ -78,42 +76,7 @@ int main() {
 							}
 							break;
 						case sf::Event::KeyPressed:
-							switch(event.key.code){
-								case sf::Keyboard::Key::Up :
-									if(!game.cursor.word->is_horiz){
-										std::advance(game.cursor.tile_it,-1);
-									} else if(game.cursor.tile_it->crossing_word != NULL){
-										game.cursor.word = game.cursor.tile_it->crossing_word;
-										game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-									}
-									break;
-								case sf::Keyboard::Key::Down :
-									if(!game.cursor.word->is_horiz){
-										std::advance(game.cursor.tile_it,1);
-									} else if(game.cursor.tile_it->crossing_word != NULL){
-										game.cursor.word = game.cursor.tile_it->crossing_word;
-										game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-									}
-									break;
-								case sf::Keyboard::Key::Left :
-									if(game.cursor.word->is_horiz){
-										std::advance(game.cursor.tile_it,-1);
-									} else if(game.cursor.tile_it->crossing_word != NULL) {
-										game.cursor.word = game.cursor.tile_it->crossing_word;
-										game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-									}
-									break;
-								case sf::Keyboard::Key::Right :
-									if(game.cursor.word->is_horiz){
-										std::advance(game.cursor.tile_it,1);
-									} else if(game.cursor.tile_it->crossing_word != NULL){
-										//std::cout << game.cursor.tile_it->crossing_word;
-										game.cursor.word = game.cursor.tile_it->crossing_word;
-										game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-									}
-									break;
-
-							}
+							game.move(event.key.code);
 						break;
 					}
 			}

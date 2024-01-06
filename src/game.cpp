@@ -15,7 +15,21 @@ game_t::game_t() :
 	build_sprite_map();
 	build_word_map();
 	get_start_word();
-	cursor.set_pos(&(word_list.front()));
+	cursor.set_pos(&(word_list.back()));
+	generate_start_clues(&word_list.front());
+
+	//int i = 0
+	//auto it2 = word_list.begin();
+	//std::cout << it2->word;
+	//std::cout << "HEOOLDA" << std::endl;
+	
+	//a:m:uto *it = &(cursor.word->tiles.begin());
+	
+		//(*it)->crossing_word = &(it2);
+		//std::cout << (*it)->crossing_word;
+		//std::advance(it2,1);
+		//i++;
+	//}
 }
 
 
@@ -102,7 +116,7 @@ std::vector<int> game_t::find_letter_indices(std::string s, char c){
 	return v;
 }
 
-void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index){
+void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index, word_t *curr_word){
 	int rand_ind = rand() % word_map[(*tile_it)->letter].size();
 	std::string s = word_map[(*tile_it)->letter].at(rand_ind).first;
 	std::vector<int> v = find_letter_indices(s, (*tile_it)->letter);
@@ -113,20 +127,42 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_inde
 	} else {
 		word_t w(s, (*tile_it)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it)->pos.y, true, false, this);
 	}
-	
-	 auto it = word_list.back().tiles.begin();
+
+	//pointing the generated word to the cursor word, this part does not work
+
+
+	 (*tile_it)->crossing_word =&(word_list.back()); // this part works
+													 //
+	 //std::cout <<  (*tile_it)->crossing_word->word;
+	 auto it = (*tile_it)->crossing_word->tiles.begin();
 	 std::advance(it, tile_index);
 	 it->is_correct = true;
-	 (*tile_it)->crossing_word = &(word_list.back());
+	 it->crossing_word = curr_word;
+	 
+	 //std::cout <<  it->crossing_word->word;
+	
+	 //auto itt = (*tile_it)->crossing_word->tiles.begin();
+	 //std::advance(itt, tile_index);
 
-	 auto it_cross = (*tile_it)->crossing_word->tiles.begin();
-	 std::advance(it_cross, tile_index);
-	 it_cross->is_correct = true;
-	 it_cross->crossing_word = cursor.word;
+	 //std::cout <<  itt->crossing_word->word;
+	 //it->is_correct = true;
+	 //it->crossing_word = curr_word;
+	 //std::advance(*it, -1*tile_index); // is this right?
+	 //std::cout << (*it)->crossing_word->word <<std::endl;
+
+	 //pointing the current word to the generated word;
+
+	//connecting the generated word to the current cursor word
+	 //auto it_cross = (*tile_it)->crossing_word->tiles.begin();
+	 //std::advance(it_cross, tile_index);
+	 //it_cross->is_correct = true;
+	 //it_cross->crossing_word = curr_word;
+	//std::cout << it_cross->crossing_word;
 
 	 std::cout << (*tile_it)->crossing_word->word << std::endl;
 	
 }
+
 
 void game_t::draw_cursor_word(){
 	for(auto it = cursor.word->tiles.begin(); it != cursor.word->tiles.end();++it){
@@ -160,43 +196,32 @@ void game_t::draw_cursor_word(){
 		}
 	}
 }
+void game_t::move(sf::Keyboard::Key key_code){
+	if(key_code == sf::Keyboard::Key::Up ||key_code == sf::Keyboard::Key::Down ||key_code == sf::Keyboard::Key::Left ||key_code == sf::Keyboard::Key::Right ){
+		std::list<tile_t>::iterator boundary_it;
+		if(key_code == sf::Keyboard::Key::Up || key_code == sf::Keyboard::Key::Left){
+			boundary_it = cursor.word->tiles.begin();
+		} else if (key_code == sf::Keyboard::Key::Down || key_code == sf::Keyboard::Key::Right){
+			boundary_it = --cursor.word->tiles.end();
+		}
+		int input_along_word = (cursor.word->is_horiz &&  (key_code == sf::Keyboard::Key::Left || key_code == sf::Keyboard::Key::Right) ) || (!cursor.word->is_horiz &&  (key_code == sf::Keyboard::Key::Up || key_code == sf::Keyboard::Key::Down));
+		int is_forward =  (key_code == sf::Keyboard::Key::Down || key_code == sf::Keyboard::Key::Right) ? 1 : (key_code == sf::Keyboard::Key::Up || key_code == sf::Keyboard::Key::Left) ? -1 : 0;
 
-//void game_t::move( sf::Keyboard::Key key){
-	//switch(key){
-		
-	//case sf::Event::KeyPressed
-		//switch(event.key.code){
-			//case sf::Keyboard::Key::Up :
-				//if(!game.cursor.word->is_horiz){
-					//std::advance(game.cursor.tile_it,-1);
-				//} else if(game.cursor.tile_it->crossing_word != NULL){
-					//game.cursor.word = game.cursor.tile_it->crossing_word;
-					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-				//}
-				//break;
-			//case sf::Keyboard::Key::Down :
-				//if(!game.cursor.word->is_horiz){
-					//std::advance(game.cursor.tile_it,1);
-				//} else if(game.cursor.tile_it->crossing_word != NULL){
-					//game.cursor.word = game.cursor.tile_it->crossing_word;
-					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-				//}
-				//break;
-			//case sf::Keyboard::Key::Left :
-				//if(game.cursor.word->is_horiz){
-					//std::advance(game.cursor.tile_it,-1);
-				//} else if(game.cursor.tile_it->crossing_word != NULL) {
-					//game.cursor.word = game.cursor.tile_it->crossing_word;
-					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-				//}
-				//break;
-			//case sf::Keyboard::Key::Right :
-				//if(game.cursor.word->is_horiz){
-					//std::advance(game.cursor.tile_it,1);
-				//} else if(game.cursor.tile_it->crossing_word != NULL){
-					////std::cout << game.cursor.tile_it->crossing_word;
-					//game.cursor.word = game.cursor.tile_it->crossing_word;
-					//game.cursor.tile_it = ((game.cursor.word->tiles.begin()));
-				//}
-				//break;
+		if(input_along_word ){
+			if(cursor.tile_it != boundary_it)
+			std::advance(cursor.tile_it,is_forward);
+		} else if(cursor.tile_it->crossing_word != NULL){
+			//std::cout <<cursor.tile_it->crossing_word <<std::endl; // crossing word is not initialised?
+			cursor.word = cursor.tile_it->crossing_word;
+			cursor.tile_it = ((cursor.word->tiles.begin()));
+		}
+
+	}
+}
+
+void game_t::generate_start_clues(word_t *start_word){
+	for(auto it = start_word->tiles.begin(); it != start_word->tiles.end(); ++it){
+		generate_clue(&it, 0, start_word);
+	}
+}
 
