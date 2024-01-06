@@ -30,7 +30,7 @@ class game_t{
 		void build_sprite_map();
 		void build_word_map();
 		void get_start_word();
-		void draw_word(word_t word);
+		void draw_word_box(word_t word, sf::Color color);
 		std::vector<int> find_letter_indices(std::string s, char c);
 		void generate_clue(tile_t *tile);
 		void draw_cursor_word();

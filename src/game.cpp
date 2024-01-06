@@ -89,12 +89,14 @@ void game_t::get_start_word(){
 	word_t start_word(start_str,3*TILE_WIDTH, HEIGHT/2,true, true, this);
 }
 
-void game_t::draw_word(word_t word){
+void game_t::draw_word_box(word_t word, sf::Color color){
 	for(auto it = word.tiles.begin(); it != word.tiles.end(); ++it){
 		//std::cout << &it->sprite << std::endl;
 		sf::Sprite tile = it->blank_tile;
-		if(it->is_correct) tile.setColor(sf::Color(255, 255, 255, 255));
-		else tile.setColor(sf::Color(128, 128, 128, 255));
+		tile.setColor(color);
+		//if(it->is_correct) tile.setColor(sf::Color(WHITE);
+		//else tile.setColor(GREY);
+		//
 		window.draw(tile);
 	}
 }
@@ -130,7 +132,7 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_inde
 	 it->crossing_word = curr_word;
 	 it->cross_word_ind = cursor_index;
 	 //it->cross_word_ind = tile_index;
-	 std::cout <<(*tile_it)->cross_word_ind;
+	 //std::cout <<(*tile_it)->cross_word_ind;
 	 //std::cout <<  it->crossing_word->word;
 	
 	 //auto itt = (*tile_it)->crossing_word->tiles.begin();
@@ -158,6 +160,13 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_inde
 
 void game_t::draw_cursor_word(){
 	for(auto it = cursor.word->tiles.begin(); it != cursor.word->tiles.end();++it){
+		if(it->crossing_word != NULL){
+			if(it->crossing_word->is_correct)   
+			draw_word_box(*it->crossing_word, WHITE);
+			else
+			draw_word_box(*it->crossing_word, L_RED);
+		}
+		
 		sf::Sprite cursor_tile;
 
 		if(cursor.word->is_correct){
@@ -174,8 +183,8 @@ void game_t::draw_cursor_word(){
 
 		cursor_tile.setPosition(it->pos);
 
-		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(sf::Color(191, 191, 191, 255));
-		else if(it == cursor.tile_it)   cursor_tile.setColor(sf::Color(255, 0, 0, 255));
+		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(L_GREY);
+		else if(it == cursor.tile_it)   cursor_tile.setColor(RED);
 
 		if(cursor.word->is_correct){
 			if(it == cursor.tile_it){
@@ -209,7 +218,7 @@ void game_t::move(sf::Keyboard::Key key_code){
 			auto it = (cursor.word->tiles.begin());
 			std::advance(it, cursor.tile_it->cross_word_ind);
 
-			std::cout << cursor.tile_it->cross_word_ind << std::endl;
+			//std::cout << cursor.tile_it->cross_word_ind << std::endl;
 			cursor.tile_it = it;
 			//std::advance(cursor.tile_it, cursor.tile_it->cross_word_ind);
 		}

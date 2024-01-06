@@ -91,7 +91,11 @@ int main() {
 				break;
 			case game.state_t::PLAYING:
 			for(auto word : game.word_list){
-				game.draw_word(word);
+				if(!word.is_correct) game.draw_word_box(word, GREY);
+
+			}
+			for(auto word : game.word_list){
+				if(word.is_correct) game.draw_word_box(word, WHITE);
 
 			}
 			game.draw_cursor_word();
