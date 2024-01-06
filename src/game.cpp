@@ -17,19 +17,9 @@ game_t::game_t() :
 	get_start_word();
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
-
-	//int i = 0
-	//auto it2 = word_list.begin();
-	//std::cout << it2->word;
-	//std::cout << "HEOOLDA" << std::endl;
-	
-	//a:m:uto *it = &(cursor.word->tiles.begin());
-	
-		//(*it)->crossing_word = &(it2);
-		//std::cout << (*it)->crossing_word;
-		//std::advance(it2,1);
-		//i++;
-	//}
+	//sf::Image image;
+	//image.loadFromFile("../images/nyt_logo.png");
+	//window.setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
 }
 
 
@@ -102,9 +92,10 @@ void game_t::get_start_word(){
 void game_t::draw_word(word_t word){
 	for(auto it = word.tiles.begin(); it != word.tiles.end(); ++it){
 		//std::cout << &it->sprite << std::endl;
-		if(word.is_correct) window.draw(it->sprite);
-		else window.draw(it->blank_tile);
-		//window->draw(it->blank_tile);
+		sf::Sprite tile = it->blank_tile;
+		if(it->is_correct) tile.setColor(sf::Color(255, 255, 255, 255));
+		else tile.setColor(sf::Color(128, 128, 128, 255));
+		window.draw(tile);
 	}
 }
 
@@ -128,17 +119,18 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_inde
 		word_t w(s, (*tile_it)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it)->pos.y, true, false, this);
 	}
 
-	//pointing the generated word to the cursor word, this part does not work
-
 
 	 (*tile_it)->crossing_word =&(word_list.back()); // this part works
-													 //
+
 	 //std::cout <<  (*tile_it)->crossing_word->word;
+	 (*tile_it)->cross_word_ind = tile_index;
 	 auto it = (*tile_it)->crossing_word->tiles.begin();
 	 std::advance(it, tile_index);
 	 it->is_correct = true;
 	 it->crossing_word = curr_word;
-	 
+	 it->cross_word_ind = cursor_index;
+	 //it->cross_word_ind = tile_index;
+	 std::cout <<(*tile_it)->cross_word_ind;
 	 //std::cout <<  it->crossing_word->word;
 	
 	 //auto itt = (*tile_it)->crossing_word->tiles.begin();
@@ -182,8 +174,8 @@ void game_t::draw_cursor_word(){
 
 		cursor_tile.setPosition(it->pos);
 
-		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(sf::Color(255, 255, 255, 128));
-		else if(it == cursor.tile_it)   cursor_tile.setColor(sf::Color(255, 0, 0, 128));
+		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(sf::Color(191, 191, 191, 255));
+		else if(it == cursor.tile_it)   cursor_tile.setColor(sf::Color(255, 0, 0, 255));
 
 		if(cursor.word->is_correct){
 			if(it == cursor.tile_it){
@@ -212,16 +204,23 @@ void game_t::move(sf::Keyboard::Key key_code){
 			std::advance(cursor.tile_it,is_forward);
 		} else if(cursor.tile_it->crossing_word != NULL){
 			//std::cout <<cursor.tile_it->crossing_word <<std::endl; // crossing word is not initialised?
+			//
 			cursor.word = cursor.tile_it->crossing_word;
-			cursor.tile_it = ((cursor.word->tiles.begin()));
+			auto it = (cursor.word->tiles.begin());
+			std::advance(it, cursor.tile_it->cross_word_ind);
+
+			std::cout << cursor.tile_it->cross_word_ind << std::endl;
+			cursor.tile_it = it;
+			//std::advance(cursor.tile_it, cursor.tile_it->cross_word_ind);
 		}
 
 	}
 }
 
 void game_t::generate_start_clues(word_t *start_word){
+	int i = 0;
 	for(auto it = start_word->tiles.begin(); it != start_word->tiles.end(); ++it){
-		generate_clue(&it, 0, start_word);
+		generate_clue(&it, i++, start_word);
 	}
 }
 

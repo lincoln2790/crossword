@@ -26,19 +26,6 @@ word_t::word_t(std::string letters, float x, float y, int is_horiz, int is_corre
 			tile_t tile(l, x, y+TILE_HEIGHT*TILE_SCALE*i, is_horiz, is_correct, game->sprite_map[l], game->sprite_map[0]);
 			tiles.push_back(tile);
 		}
-		//if(is_correct){
-			//game->generate_clue(&(--tiles.end()), i, this);
-			////(tiles.back().crossing_word->tiles.begin())->crossing_word = this;
-
-			
-			////for(auto it : tiles.back().crossing_word->tiles){
-				////if(!it.crossing_word) {
-					////std::cout << it.crossing_word->word;
-				////}
-			////}
-			////std::cout << "END" <<std::endl;
-		//}
-		
 	}
 	
 	game->word_list.push_back(*this);

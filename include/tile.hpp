@@ -11,8 +11,10 @@ class tile_t{
 	word_t *crossing_word;
 	int is_horiz;
 	int is_correct;
+	int cross_word_ind;
 	char letter;
 	char cursor_letter;
+	
 	
     tile_t(char l, float x, float y, int is_horiz, int is_correct, sf::Sprite s, sf::Sprite b);
 };

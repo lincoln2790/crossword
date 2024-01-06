@@ -53,6 +53,8 @@ int main() {
 									for(auto it = game.cursor.word->tiles.begin(); it != game.cursor.word->tiles.end(); ++it){
 										if(!it->is_correct){
 											game.generate_clue(&it, cursor_index, game.cursor.word);
+											std::cout << it->cross_word_ind <<std::endl;
+
 											it->is_correct = true;
 										}
 										//std::cout << it.crossing_word;
@@ -60,7 +62,9 @@ int main() {
 
 									}
 									game.cursor.word->is_correct = true;
-									game.cursor.tile_it = game.cursor.word->tiles.begin();
+									auto it = game.cursor.word->tiles.begin();
+									std::advance(it, game.cursor.tile_it->cross_word_ind);
+									game.cursor.tile_it = it;
 									continue;
 								}
 								std::advance(game.cursor.tile_it, 1);
@@ -88,9 +92,7 @@ int main() {
 			case game.state_t::PLAYING:
 			for(auto word : game.word_list){
 				game.draw_word(word);
-				//game.window.draw(game.sprite_map['a']);
-				//std::cout << word.word << std::endl;
-				//std::cout << word.tiles.front().sprite;
+
 			}
 			game.draw_cursor_word();
 		}
