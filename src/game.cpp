@@ -11,15 +11,35 @@ game_t::game_t() :
 	window.setVerticalSyncEnabled(true);
 	tile_texture.loadFromFile(TILE_SET);
 	tile_texture.setSmooth(true);
+	font.loadFromFile("arial.ttf");
+	
+	horiz_clue.setFont(font);
+	horiz_clue.setCharacterSize(24);
+	horiz_clue.setFillColor(WHITE);
+	horiz_clue.setString(" ");
+
+	vert_clue.setFont(font);
+	vert_clue.setCharacterSize(24);
+	vert_clue.setFillColor(WHITE);
+	vert_clue.setString(" ");
+	vert_clue.setPosition(200,0);
 	
 	build_sprite_map();
 	build_word_map();
 	get_start_word();
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
+	if(cursor.word->is_horiz){
+		horiz_clue.setString(HORIZ_STR + cursor.word->clue);
+		vert_clue.setString(VERT_STR + (cursor.tile_it->crossing_word != NULL ? cursor.tile_it->crossing_word->clue : " - " ));
+	}else{
+		horiz_clue.setString(HORIZ_STR +  (cursor.tile_it->crossing_word != NULL ? cursor.tile_it->crossing_word->clue : " - " ));
+		vert_clue.setString(VERT_STR + cursor.word->clue);
+	}
 	//sf::Image image;
 	//image.loadFromFile("../images/nyt_logo.png");
 	//window.setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
+
 }
 
 
@@ -52,16 +72,20 @@ void game_t::build_sprite_map(){
 
 void game_t::build_word_map(){
 	std::ifstream file;
+	std::ifstream clue_file;
 	file.open ("word_list.txt");
+	clue_file.open("clue_list.txt");
 	std::string word;
-
+	std::string clue;
 	int w = 0;
 	for(char c = 'a'; c <= 'z' ; c++){
 		word_map[c] = {} ;
 	}
 	while (file >> word){
+		std::getline(clue_file, clue);
+		//std::cout << clue << std::endl;
 		for(int i = 0; i < word.length(); i++){
-			std::pair<std::string, int> pair(word, w);
+			std::pair<std::string, std::string> pair(word,clue);
 			if(word_map[word[i]].empty() || word_map[word[i]].back() != pair){
 				word_map[word[i]].push_back(pair);
 			}
@@ -86,7 +110,10 @@ void game_t::get_start_word(){
 	char rand_char = (rand() % 26) + 'a';
 	int rand_word = rand() % (word_map[rand_char].size());
 	std::string start_str = word_map[rand_char][rand_word].first;
-	word_t start_word(start_str,3*TILE_WIDTH, HEIGHT/2,true, true, this);
+	std::string start_clue = word_map[rand_char][rand_word].second;
+	
+	word_t start_word(start_str, start_clue,3*TILE_WIDTH, HEIGHT/2,true, true, this);
+
 }
 
 void game_t::draw_word_box(word_t word, sf::Color color){
@@ -112,13 +139,15 @@ std::vector<int> game_t::find_letter_indices(std::string s, char c){
 void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index, word_t *curr_word){
 	int rand_ind = rand() % word_map[(*tile_it)->letter].size();
 	std::string s = word_map[(*tile_it)->letter].at(rand_ind).first;
+	std::string clue = word_map[(*tile_it)->letter].at(rand_ind).second;
+ 
 	std::vector<int> v = find_letter_indices(s, (*tile_it)->letter);
 	int tile_index = v[rand() % v.size()];
 	
 	if((*tile_it)->is_horiz){
-		 word_t w(s, (*tile_it)->pos.x,(*tile_it)->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
+		 word_t w(s, clue, (*tile_it)->pos.x,(*tile_it)->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
 	} else {
-		word_t w(s, (*tile_it)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it)->pos.y, true, false, this);
+		word_t w(s, clue, (*tile_it)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it)->pos.y, true, false, this);
 	}
 
 
@@ -131,7 +160,9 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_inde
 	 it->is_correct = true;
 	 it->crossing_word = curr_word;
 	 it->cross_word_ind = cursor_index;
-	 std::cout << (*tile_it)->crossing_word->word << std::endl;
+	 //std::cout << (*tile_it)->crossing_word->word << std::endl;
+	 //std::cout << (*tile_it)->crossing_word->word << std::endl;
+	 
 }
 
 
@@ -218,7 +249,13 @@ void game_t::move(sf::Keyboard::Key key_code){
 			std::advance(cursor.tile_it, -1);
 		}
 	}
-
+	if(cursor.word->is_horiz){
+		horiz_clue.setString(HORIZ_STR + cursor.word->clue);
+		vert_clue.setString(VERT_STR + (cursor.tile_it->crossing_word != NULL ? cursor.tile_it->crossing_word->clue : " - " ));
+	}else{
+		horiz_clue.setString(HORIZ_STR +  (cursor.tile_it->crossing_word != NULL ? cursor.tile_it->crossing_word->clue : " - " ));
+		vert_clue.setString(VERT_STR + cursor.word->clue);
+	}
 }
 
 void game_t::generate_start_clues(word_t *start_word){
@@ -228,3 +265,7 @@ void game_t::generate_start_clues(word_t *start_word){
 	}
 }
 
+void game_t::draw_text(){
+	window.draw(horiz_clue);
+	window.draw(vert_clue);
+}

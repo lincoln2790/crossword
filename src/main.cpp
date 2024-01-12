@@ -47,12 +47,11 @@ int main() {
 							if((!game.cursor.word->is_correct) && (event.text.unicode >= 'a' && event.text.unicode <= 'z')){
 								game.cursor.tile_it->cursor_letter = event.text.unicode;
 								if(game.cursor.check()){
-									std::cout << "CORRECT\n" <<std::flush;
 									int cursor_index = 0;
 									for(auto it = game.cursor.word->tiles.begin(); it != game.cursor.word->tiles.end(); ++it){
 										if(!it->is_correct){
 											game.generate_clue(&it, cursor_index, game.cursor.word);
-											std::cout << it->cross_word_ind <<std::endl;
+											//std::cout << it->cross_word_ind <<std::endl;
 
 											it->is_correct = true;
 										}
@@ -67,7 +66,6 @@ int main() {
 									continue;
 								}
 								std::advance(game.cursor.tile_it, 1);
-																	
 								while(!game.cursor.word->is_correct && (game.cursor.tile_it == (game.cursor.word->tiles.end()) || game.cursor.tile_it->is_correct)){
 									if(game.cursor.tile_it == game.cursor.word->tiles.end()){
 										game.cursor.tile_it = game.cursor.word->tiles.begin();
@@ -89,15 +87,17 @@ int main() {
 			case game.state_t::IDLE:
 				break;
 			case game.state_t::PLAYING:
-			for(auto word : game.word_list){
-				if(!word.is_correct) game.draw_word_box(word, GREY);
+				for(auto word : game.word_list){
+					if(!word.is_correct) game.draw_word_box(word, GREY);
 
-			}
-			for(auto word : game.word_list){
-				if(word.is_correct) game.draw_word_box(word, WHITE);
+				}
+				for(auto word : game.word_list){
+					if(word.is_correct) game.draw_word_box(word, WHITE);
 
-			}
-			game.draw_cursor_word();
+				}
+				game.draw_cursor_word();
+				game.draw_text();
+				break;
 		}
 		game.window.display();
 		

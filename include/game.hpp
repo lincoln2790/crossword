@@ -19,8 +19,11 @@ class game_t{
 	public:
 		sf::RenderWindow window;
 		sf::Texture tile_texture;
+		sf::Font font;
+		sf::Text horiz_clue;
+		sf::Text vert_clue;
 		std::map<char, sf::Sprite> sprite_map;
-		std::map<char,std::vector<std::pair<std::string, int>>> word_map;
+		std::map<char,std::vector<std::pair<std::string, std::string>>> word_map;
 		std::list<word_t> word_list;
 		enum state_t{
 			IDLE,
@@ -40,6 +43,8 @@ class game_t{
 		void generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index, word_t *curr_word);
 		void move(sf::Keyboard::Key key_code);
 		void generate_start_clues(word_t *start_word);
+		void draw_text();
+
 
 };
 #endif
