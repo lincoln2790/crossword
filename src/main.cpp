@@ -15,7 +15,7 @@
 #include "../include/tile.hpp"
 #include "../include/word.hpp"
 #include "../include/cursor.hpp"
-#include "../include/func.hpp"
+//#include "../include/func.hpp"
 #include "../include/game.hpp"
 int main() {
 	game_t game;

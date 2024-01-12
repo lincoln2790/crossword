@@ -1,5 +1,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+#include <iostream>
+#include <fstream>
+#include <set>
 
 #include <list>
 #include <vector>
@@ -10,7 +13,7 @@
 #include "../include/tile.hpp"
 #include "../include/word.hpp"
 #include "../include/cursor.hpp"
-#include "../include/func.hpp"
+//#include "../include/func.hpp"
 
 class game_t{	
 	public:
