@@ -11,7 +11,7 @@ class cursor_t{
 		std::list<tile_t>::iterator tile_it;
 
 		cursor_t();
-		void set_pos(word_t *start_word);
+		void set_pos(word_t *start_word_p);
 		int check();
 };
 #endif

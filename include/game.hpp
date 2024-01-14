@@ -19,8 +19,8 @@ class game_t{
 		sf::RenderWindow window;
 		sf::Texture tile_texture;
 		sf::Font font;
-		sf::Text horiz_clue;
-		sf::Text vert_clue;
+		sf::Text horiz_clue_txt;
+		sf::Text vert_clue_txt;
 		std::map<char, sf::Sprite> sprite_map;
 		std::map<char,std::vector<std::pair<std::string, std::string>>> word_map;
 		std::list<word_t> word_list;
@@ -31,14 +31,13 @@ class game_t{
 		sf::Sprite get_tile_sprite(char letter);
 		void build_sprite_map();
 		void build_word_map();
-		void get_start_word();
+		void generate_start_word();
 		void draw_word_box(word_t word, sf::Color color);
-		std::vector<int> find_letter_indices(std::string s, char c);
-		void generate_clue(tile_t *tile);
+		std::vector<int> find_letter_indices(std::string str, char letter);
 		void draw_cursor_word();
-		void generate_clue(std::list<tile_t>::iterator *tile_it, int cursor_index, word_t *curr_word);
-		void move(sf::Keyboard::Key key_code);
-		void generate_start_clues(word_t *start_word);
+		void generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_ind, word_t *word_p);
+		void handle_key_input(sf::Keyboard::Key key_code);
+		void generate_start_clues(word_t *start_word_p);
 		void draw_text();
 };
 

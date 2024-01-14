@@ -5,18 +5,18 @@ cursor_t::cursor_t(){
 
 void cursor_t::set_pos(word_t *start_word){
 	word_p = start_word;
-	tile_it = word_p->tiles.begin();
+	tile_it = word_p->tile_list.begin();
 };
 
 int cursor_t::check(){
-	auto it = word_p->tiles.begin();
+	auto it = word_p->tile_list.begin();
 	do{
 		if(!(it->cursor_letter == it->letter || it->is_correct)) {
 			return false;
 		}
 		++it;
 	}
-	while( it != word_p->tiles.end());
+	while( it != word_p->tile_list.end());
 
 	return true;
 }

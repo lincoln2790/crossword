@@ -11,8 +11,8 @@ class tile_t{
     public:
 	sf::Sprite sprite;
 	sf::Vector2f pos;
-	sf::Sprite blank_tile;
-	word_t *crossing_word;
+	sf::Sprite blank_sprite;
+	word_t *cross_word_p;
 	int is_horiz;
 	int is_correct;
 	int cross_word_ind;

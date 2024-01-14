@@ -36,7 +36,7 @@ int main() {
 								game.cursor.tile_it->cursor_letter = event.text.unicode;
 								if(game.cursor.check()){
 									int cursor_index = 0;
-									for(auto it = game.cursor.word_p->tiles.begin(); it != game.cursor.word_p->tiles.end(); ++it){
+									for(auto it = game.cursor.word_p->tile_list.begin(); it != game.cursor.word_p->tile_list.end(); ++it){
 										if(!it->is_correct){
 											game.generate_clue(&it, cursor_index, game.cursor.word_p);
 											//std::cout << it->cross_word_ind <<std::endl;
@@ -48,15 +48,15 @@ int main() {
 
 									}
 									game.cursor.word_p->is_correct = true;
-									auto it = game.cursor.word_p->tiles.begin();
+									auto it = game.cursor.word_p->tile_list.begin();
 									std::advance(it, game.cursor.tile_it->cross_word_ind);
 									game.cursor.tile_it = it;
 									continue;
 								}
 								std::advance(game.cursor.tile_it, 1);
-								while(!game.cursor.word_p->is_correct && (game.cursor.tile_it == (game.cursor.word_p->tiles.end()) || game.cursor.tile_it->is_correct)){
-									if(game.cursor.tile_it == game.cursor.word_p->tiles.end()){
-										game.cursor.tile_it = game.cursor.word_p->tiles.begin();
+								while(!game.cursor.word_p->is_correct && (game.cursor.tile_it == (game.cursor.word_p->tile_list.end()) || game.cursor.tile_it->is_correct)){
+									if(game.cursor.tile_it == game.cursor.word_p->tile_list.end()){
+										game.cursor.tile_it = game.cursor.word_p->tile_list.begin();
 									}
 									if(game.cursor.tile_it->is_correct){
 										std::advance(game.cursor.tile_it, 1);
@@ -65,7 +65,7 @@ int main() {
 							}
 							break;
 						case sf::Event::KeyPressed:
-							game.move(event.key.code);
+							game.handle_key_input(event.key.code);
 						break;
 					}
 			}
