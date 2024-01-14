@@ -1,21 +1,9 @@
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
-#include <utility>
-#include<iostream>
-#include<fstream>
-#include <time.h>
-#include <stdlib.h>
-
 #include "../include/const.hpp"
 #include "../include/tile.hpp"
 #include "../include/word.hpp"
 #include "../include/cursor.hpp"
 #include "../include/game.hpp"
+
 int main() {
 	game_t game;
 	while(game.window.isOpen()){
@@ -29,18 +17,18 @@ int main() {
 			}
 			
 			switch(game.state){
-				case game.state_t::IDLE:
+				case IDLE:
 					switch(event.type){
 						case sf::Event::KeyPressed:
 							switch(event.key.code){
 								case sf::Keyboard::Key::Space:
-									game.state = game.state_t::PLAYING;
+									game.state = PLAYING;
 									continue;
 									//break;
 							}
 					}
 					break;
-				case game.state_t::PLAYING:
+				case PLAYING:
 					switch(event.type){
 						case sf::Event::TextEntered:
 								//cursor.tile->cursor_letter = event.text.unicode;
@@ -84,9 +72,9 @@ int main() {
 		}
 		game.window.clear(sf::Color::Black);
 		switch(game.state){
-			case game.state_t::IDLE:
+			case IDLE:
 				break;
-			case game.state_t::PLAYING:
+			case PLAYING:
 				for(auto word : game.word_list){
 					if(!word.is_correct) game.draw_word_box(word, GREY);
 

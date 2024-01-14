@@ -1,12 +1,6 @@
-#include <set>
-#include <list>
-#include "../include/const.hpp"
-#include "../include/tile.hpp"
 #include "../include/word.hpp"
-#include "../include/cursor.hpp"
-//#include "../include/func.hpp"
 #include "../include/game.hpp"
-//word_t::word_t(sf::Texture *tile_texture, std::string letters, float x, float y, int is_horiz, std::list<word_t> *word_list, int is_correct , std::map<char, std::vector<std::pair<std::string, int>>>* word_map){
+
 word_t::word_t(std::string letters, std::string clue, float x, float y, int is_horiz, int is_correct, game_t *game) :
 	word(letters),
 	clue(clue),

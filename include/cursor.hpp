@@ -1,11 +1,9 @@
 #ifndef CURSOR_HPP
 #define CURSOR_HPP
 
-#include <set>
-#include "../include/const.hpp"
-#include "../include/tile.hpp"
-#include "../include/word.hpp"
-//#include "../include/func.hpp"
+#include "const.hpp"
+#include "tile.hpp"
+#include "word.hpp"
 
 class cursor_t{
 	public:

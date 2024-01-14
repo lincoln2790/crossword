@@ -2,19 +2,18 @@
 #define GAME_HPP
 #include <iostream>
 #include <fstream>
-#include <set>
-
-#include <list>
+#include <map>
 #include <vector>
+#include <utility>
+#include <list>
 #include <string>
-#include "SFML/Graphics.hpp"
-#include "SFML/Window.hpp"
-#include "../include/const.hpp"
-#include "../include/tile.hpp"
-#include "../include/word.hpp"
-#include "../include/cursor.hpp"
-//#include "../include/func.hpp"
-
+#include <iterator>
+ 
+#include "const.hpp"
+#include "tile.hpp"
+#include "word.hpp"
+#include "cursor.hpp"
+class word_t;
 class game_t{	
 	public:
 		sf::RenderWindow window;
@@ -25,10 +24,7 @@ class game_t{
 		std::map<char, sf::Sprite> sprite_map;
 		std::map<char,std::vector<std::pair<std::string, std::string>>> word_map;
 		std::list<word_t> word_list;
-		enum state_t{
-			IDLE,
-			PLAYING
-		} state;
+		state_t state;
 		cursor_t cursor;
 
 		game_t();

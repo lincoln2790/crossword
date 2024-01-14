@@ -1,4 +1,5 @@
 #include "../include/cursor.hpp"
+
 cursor_t::cursor_t(){
 };
 

@@ -2,8 +2,14 @@
 #define WORD_H
 
 #include <list>
-class game_t;
-class tile_t;
+#include <string>
+#include "const.hpp"
+#include "tile.hpp"
+//#include "game.hpp"
+
+
+class tile_t; // words contain tiles, tiles contain a pointer to a crossing word
+class game_t; // game contains word list, word constructor requires access to game's word list
 
 class word_t{
 	public:

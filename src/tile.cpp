@@ -1,5 +1,5 @@
-
 #include "../include/tile.hpp"
+
 tile_t::tile_t(char l, float x, float y, int is_horiz, int is_correct, sf::Sprite s, sf::Sprite b):
 	letter(l),
 	is_horiz(is_horiz),

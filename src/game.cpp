@@ -1,15 +1,14 @@
-
 #include "../include/game.hpp"
 
 game_t::game_t() :
-	window(sf::VideoMode(WIDTH, HEIGHT), TITLE ,sf::Style::Titlebar | sf::Style::Close),
+	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), TITLE_STR ,sf::Style::Titlebar | sf::Style::Close),
 	state(IDLE)
 	{
-	window.setTitle(TITLE);
-	sf::View view(sf::FloatRect(0.f, 0.f, WIDTH, HEIGHT));
+	window.setTitle(TITLE_STR);
+	sf::View view(sf::FloatRect(0.f, 0.f, WINDOW_WIDTH, WINDOW_HEIGHT));
 	window.setView(view);
 	window.setVerticalSyncEnabled(true);
-	tile_texture.loadFromFile(TILE_SET);
+	tile_texture.loadFromFile(TILE_TEXTURE_STR);
 	tile_texture.setSmooth(true);
 	font.loadFromFile("arial.ttf");
 	
@@ -112,7 +111,7 @@ void game_t::get_start_word(){
 	std::string start_str = word_map[rand_char][rand_word].first;
 	std::string start_clue = word_map[rand_char][rand_word].second;
 	
-	word_t start_word(start_str, start_clue,3*TILE_WIDTH, HEIGHT/2,true, true, this);
+	word_t start_word(start_str, start_clue,3*TILE_WIDTH, WINDOW_HEIGHT/2,true, true, this);
 
 }
 
