@@ -3,7 +3,21 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+/*
+Naming Conventions
+- All CAPS for constants and #define variables
+Suffixes
+- _STR for std::string constants
+- _t for class types
+- _ind for int type indices
+- _it for iterators
+- _p for pointers
+- _str for std::string
+- _pos for sf::Vector2f positions
 
+Prefixes
+- is_ for boolean (ints)
+*/
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define TILE_HEIGHT 20
@@ -13,9 +27,10 @@
 
 const std::string TITLE_STR = "CROSSWORD";
 const std::string TILE_TEXTURE_STR = "images/tile_set.png";
-//const std::string WORD_LIST = "../word_list_subset.txt";
 const std::string HORIZ_STR = "HORIZONTAL: \n";
 const std::string VERT_STR = "VERTICAL: \n";
+constexpr const char* WORD_LIST_STR = "word_list.txt";
+constexpr const char* CLUE_LIST_STR = "clue_list.txt";
 
 const sf::Color RED = sf::Color(255, 0, 0, 255);
 const sf::Color L_RED = sf::Color(255, 128, 128, 255);

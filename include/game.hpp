@@ -40,7 +40,6 @@ class game_t{
 		void move(sf::Keyboard::Key key_code);
 		void generate_start_clues(word_t *start_word);
 		void draw_text();
-
-
 };
+
 #endif

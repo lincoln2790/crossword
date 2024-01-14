@@ -32,13 +32,13 @@ int main() {
 					switch(event.type){
 						case sf::Event::TextEntered:
 								//cursor.tile->cursor_letter = event.text.unicode;
-							if((!game.cursor.word->is_correct) && (event.text.unicode >= 'a' && event.text.unicode <= 'z')){
+							if((!game.cursor.word_p->is_correct) && (event.text.unicode >= 'a' && event.text.unicode <= 'z')){
 								game.cursor.tile_it->cursor_letter = event.text.unicode;
 								if(game.cursor.check()){
 									int cursor_index = 0;
-									for(auto it = game.cursor.word->tiles.begin(); it != game.cursor.word->tiles.end(); ++it){
+									for(auto it = game.cursor.word_p->tiles.begin(); it != game.cursor.word_p->tiles.end(); ++it){
 										if(!it->is_correct){
-											game.generate_clue(&it, cursor_index, game.cursor.word);
+											game.generate_clue(&it, cursor_index, game.cursor.word_p);
 											//std::cout << it->cross_word_ind <<std::endl;
 
 											it->is_correct = true;
@@ -47,16 +47,16 @@ int main() {
 										cursor_index++;
 
 									}
-									game.cursor.word->is_correct = true;
-									auto it = game.cursor.word->tiles.begin();
+									game.cursor.word_p->is_correct = true;
+									auto it = game.cursor.word_p->tiles.begin();
 									std::advance(it, game.cursor.tile_it->cross_word_ind);
 									game.cursor.tile_it = it;
 									continue;
 								}
 								std::advance(game.cursor.tile_it, 1);
-								while(!game.cursor.word->is_correct && (game.cursor.tile_it == (game.cursor.word->tiles.end()) || game.cursor.tile_it->is_correct)){
-									if(game.cursor.tile_it == game.cursor.word->tiles.end()){
-										game.cursor.tile_it = game.cursor.word->tiles.begin();
+								while(!game.cursor.word_p->is_correct && (game.cursor.tile_it == (game.cursor.word_p->tiles.end()) || game.cursor.tile_it->is_correct)){
+									if(game.cursor.tile_it == game.cursor.word_p->tiles.end()){
+										game.cursor.tile_it = game.cursor.word_p->tiles.begin();
 									}
 									if(game.cursor.tile_it->is_correct){
 										std::advance(game.cursor.tile_it, 1);

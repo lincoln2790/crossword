@@ -7,7 +7,7 @@
 
 class cursor_t{
 	public:
-		word_t *word;
+		word_t *word_p;
 		std::list<tile_t>::iterator tile_it;
 
 		cursor_t();
