@@ -10,7 +10,7 @@ game_t::game_t() :
 	window.setVerticalSyncEnabled(true);
 	tile_texture.loadFromFile(TILE_TEXTURE_STR);
 	tile_texture.setSmooth(true);
-	font.loadFromFile("arial.ttf");
+	font.loadFromFile(FONT_STR);
 	
 	horiz_clue_txt.setFont(font);
 	horiz_clue_txt.setCharacterSize(24);
