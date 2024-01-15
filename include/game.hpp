@@ -17,6 +17,7 @@ class word_t;
 class game_t{	
 	public:
 		sf::RenderWindow window;
+		sf::View view;
 		sf::Texture tile_texture;
 		sf::Font font;
 		sf::Text horiz_clue_txt;
@@ -39,6 +40,7 @@ class game_t{
 		void handle_key_input(sf::Keyboard::Key key_code);
 		void generate_start_clues(word_t *start_word_p);
 		void draw_text();
+		void update_view();
 };
 
 #endif

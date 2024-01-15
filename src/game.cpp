@@ -2,10 +2,10 @@
 
 game_t::game_t() :
 	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), TITLE_STR ,sf::Style::Titlebar | sf::Style::Close),
+	view(sf::FloatRect(0.f, 0.f, WINDOW_WIDTH, WINDOW_HEIGHT)),
 	state(IDLE)
 	{
 	window.setTitle(TITLE_STR);
-	sf::View view(sf::FloatRect(0.f, 0.f, WINDOW_WIDTH, WINDOW_HEIGHT));
 	window.setView(view);
 	window.setVerticalSyncEnabled(true);
 	tile_texture.loadFromFile(TILE_TEXTURE_STR);
@@ -230,7 +230,7 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 		}
 
 	}
-	else if (key_code == sf::Keyboard::Key::Tab){
+	else if (key_code == sf::Keyboard::Key::Enter){
 		if(cursor.tile_it->cross_word_p != NULL){
 			cursor.word_p = cursor.tile_it->cross_word_p;
 			auto it = (cursor.word_p->tile_list.begin());
@@ -238,8 +238,12 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 			cursor.tile_it = it;
 		}
 	}
-	else if (key_code == sf::Keyboard::Key::Num0){
-		cursor.tile_it = cursor.word_p->tile_list.begin();
+	else if (key_code == sf::Keyboard::Key::RShift){
+		if(cursor.tile_it != cursor.word_p->tile_list.begin()){
+			cursor.tile_it = cursor.word_p->tile_list.begin();
+		} else {
+			cursor.tile_it = --cursor.word_p->tile_list.end();
+		}
 	}
 	else if(key_code == sf::Keyboard::Key::Backspace){
 		cursor.tile_it->cursor_letter = 0;
@@ -267,4 +271,20 @@ void game_t::generate_start_clues(word_t *start_word_p){
 void game_t::draw_text(){
 	window.draw(horiz_clue_txt);
 	window.draw(vert_clue_txt);
+}
+
+void game_t::update_view(){
+	int y;
+	if(!cursor.word_p->is_horiz){
+		y =  cursor.word_p->tile_list.begin()->pos.y + cursor.word_p->tile_list.size() * TILE_HEIGHT ;
+	} else {
+		y = cursor.word_p->tile_list.begin()->pos.y + TILE_HEIGHT/2;
+	}
+	//std::cout << cursor.word_p->tile_list.begin()->pos.y + cursor.word_p->tile_list.size() * TILE_HEIGHT << std::endl;
+	view.move(0, view.getCenter().y < y ? 1 : view.getCenter().y > y ? -1 : 0);
+	//std::cout << view.getCenter().x << std::endl;
+	window.setView(view);
+
+	//if(is_cursor.word_p->tile_list.size();
+	//
 }

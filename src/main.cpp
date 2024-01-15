@@ -70,7 +70,11 @@ int main() {
 					}
 			}
 		}
+		//game.wiow.move(100.f, 100.f);
+		//game.view.move(1.0f, 0.0f);
+		//game.window.setView(game.view);
 		game.window.clear(sf::Color::Black);
+		game.update_view();
 		switch(game.state){
 			case IDLE:
 				break;
