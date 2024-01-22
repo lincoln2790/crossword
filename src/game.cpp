@@ -1,5 +1,5 @@
 #include "../include/game.hpp"
-
+#include "../include/word_map.hpp"
 game_t::game_t() :
 	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), TITLE_STR ,sf::Style::Titlebar | sf::Style::Close),
 	view(sf::FloatRect(0.f, 0.f, WINDOW_WIDTH, WINDOW_HEIGHT)),
@@ -72,88 +72,99 @@ void game_t::build_sprite_map(){
 
 
 void game_t::build_word_map(){
-	std::ifstream file;
-	std::ifstream clue_file;
-	//file.open ("word_list.txt");
-	file.open (WORD_LIST_STR);
-	clue_file.open(CLUE_LIST_STR);
-	std::string word;
-	std::string clue_str;
-	int w = 0;
-	for(char c = 'a'; c <= 'z' ; c++){
-		word_map[c] = {} ;
-	}
-	while (file >> word){
-		std::getline(clue_file, clue_str);
-		//std::cout << clue << std::endl;
-		for(int i = 0; i < word.length(); i++){
-			std::pair<std::string, std::string> pair(word,clue_str);
-			if(word_map[word[i]].empty() || word_map[word[i]].back() != pair){
-				word_map[word[i]].push_back(pair);
-			}
+	//std::ifstream file;
+	//std::ifstream clue_file;
+	////file.open ("word_list.txt");
+	//file.open (WORD_LIST_STR);
+	//clue_file.open(CLUE_LIST_STR);
+	//std::string word;
+	//std::string clue_str;
+	//int w = 0;
+	//for(char c = 'a'; c <= 'z' ; c++){
+		//word_map[c] = {} ;
+	//}
+	//while (file >> word){
+		//std::getline(clue_file, clue_str);
+		////std::cout << clue << std::endl;
+		//for(int i = 0; i < word.length(); i++){
+			//std::pair<std::string, std::string> pair(word,clue_str);
+			//if(word_map[word[i]].empty() || word_map[word[i]].back() != pair){
+				//word_map[word[i]].push_back(pair);
+			//}
+		//}
+		//w++;
+	//}
+	 ////Accessing and printing the map contents
+	 //for (const auto& pair : word_map) {
+		 //std::cout << pair.first << ": ";
+		 //if(!pair.second.empty()){
+			 //for (const auto& str : pair.second) {
+				 //std::cout << str.first << "|" << str.second << " ";
+			 //}
+		 //}
+		 //std::cout << std::endl;
+		 //std::cout << std::endl;
+		 //std::cout << std::endl;
+	 //}
+ //// Specify the path to your CSV file
+
+    //// Open the CSV file using std::ifstream
+    //std::ifstream csvFile;
+    //csvFile.open(NYT_CLUES_STR);
+
+       //// Define a vector to store each row of data
+    //std::vector<std::vector<std::string>> data;
+
+    //// Read the CSV file line by line
+    //std::string line;
+    //while (getline(csvFile, line)) {
+        //// Use a stringstream to split the line into individual values
+        //std::stringstream ss(line);
+        //std::vector<std::string> row;
+		////std::cout << line << std::endl;
+        //// Read each value separated by commas
+        //std::string value;
+        //while (getline(ss, value, ',')) {
+            //row.push_back(value);
+        //}
+
+        //// Add the row to the data vector
+        //data.push_back(row);
+    //}
+
+    //// Close the CSV file
+    //csvFile.close();
+
+	//// Display the read data
+    //for (const auto& row : data) {
+        //for (const auto& value : row) {
+            //std::cout << value << "\t";
+        //}
+        //std::cout << std::endl;
+    //}
+	//{
+        word_map_t loadedObject;
+        std::ifstream is("./word_map.json");
+        cereal::JSONInputArchive archive(is);
+        archive(loadedObject);
+		//std::exit(0);
+		for (auto pair = loadedObject.word_map.begin(); pair != loadedObject.word_map.end(); ++pair){
+		//for(auto i : loadedObject){
+		//}
+		//
+			std::cout << pair->first <<std::endl;
+			 if(!pair->second.empty()){
+				 for (const auto& str : pair->second) {
+					 std::cout << str.first << "|" << str.second << "\n ";
+				 }
+			 }
+			 std::cout << std::endl;
+			 std::cout << std::endl;
+			 std::cout << std::endl;
 		}
-		w++;
-	}
-	 //Accessing and printing the map contents
-	 for (const auto& pair : word_map) {
-		 std::cout << pair.first << ": ";
-		 if(!pair.second.empty()){
-			 for (const auto& str : pair.second) {
-				 std::cout << str.first << "|" << str.second << " ";
-			 }
-		 }
-		 std::cout << std::endl;
-		 std::cout << std::endl;
-		 std::cout << std::endl;
-	 }
- // Specify the path to your CSV file
-
-    // Open the CSV file using std::ifstream
-    std::ifstream csvFile;
-    csvFile.open(NYT_CLUES_STR);
-
-       // Define a vector to store each row of data
-    std::vector<std::vector<std::string>> data;
-
-    // Read the CSV file line by line
-    std::string line;
-    while (getline(csvFile, line)) {
-        // Use a stringstream to split the line into individual values
-        std::stringstream ss(line);
-        std::vector<std::string> row;
-		//std::cout << line << std::endl;
-        // Read each value separated by commas
-        std::string value;
-        while (getline(ss, value, ',')) {
-            row.push_back(value);
-        }
-
-        // Add the row to the data vector
-        data.push_back(row);
-    }
-
-    // Close the CSV file
-    csvFile.close();
-
-	// Display the read data
-    for (const auto& row : data) {
-        for (const auto& value : row) {
-            std::cout << value << "\t";
-        }
-        std::cout << std::endl;
-    }
-	//Accessing and printing the map contents
-	for (const auto& pair : word_map) {
-		 std::cout << pair.first << ": ";
-		 if(!pair.second.empty()){
-			 for (const auto& str : pair.second) {
-				 std::cout << str.first << "|" << str.second << " ";
-			 }
-		 }
-		 std::cout << std::endl;
-		 std::cout << std::endl;
-		 std::cout << std::endl;
-	 }
+		word_map = loadedObject.word_map;
+	//}
+	
 }
 
 void game_t::generate_start_word(){
