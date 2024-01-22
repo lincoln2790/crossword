@@ -25,6 +25,8 @@ game_t::game_t() :
 	
 	build_sprite_map();
 	build_word_map();
+
+	//exit(0);
 	generate_start_word();
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
@@ -92,18 +94,66 @@ void game_t::build_word_map(){
 		}
 		w++;
 	}
-	// Accessing and printing the map contents
-	 //for (const auto& pair : word_map) {
-		 //std::cout << pair.first << ": ";
-		 //if(!pair.second.empty()){
-			 //for (const auto& str : pair.second) {
-				 //std::cout << str.first << "|" << str.second << " ";
-			 //}
-		 //}
-		 //std::cout << std::endl;
-		 //std::cout << std::endl;
-		 //std::cout << std::endl;
-	 //}
+	 //Accessing and printing the map contents
+	 for (const auto& pair : word_map) {
+		 std::cout << pair.first << ": ";
+		 if(!pair.second.empty()){
+			 for (const auto& str : pair.second) {
+				 std::cout << str.first << "|" << str.second << " ";
+			 }
+		 }
+		 std::cout << std::endl;
+		 std::cout << std::endl;
+		 std::cout << std::endl;
+	 }
+ // Specify the path to your CSV file
+
+    // Open the CSV file using std::ifstream
+    std::ifstream csvFile;
+    csvFile.open(NYT_CLUES_STR);
+
+       // Define a vector to store each row of data
+    std::vector<std::vector<std::string>> data;
+
+    // Read the CSV file line by line
+    std::string line;
+    while (getline(csvFile, line)) {
+        // Use a stringstream to split the line into individual values
+        std::stringstream ss(line);
+        std::vector<std::string> row;
+		//std::cout << line << std::endl;
+        // Read each value separated by commas
+        std::string value;
+        while (getline(ss, value, ',')) {
+            row.push_back(value);
+        }
+
+        // Add the row to the data vector
+        data.push_back(row);
+    }
+
+    // Close the CSV file
+    csvFile.close();
+
+	// Display the read data
+    for (const auto& row : data) {
+        for (const auto& value : row) {
+            std::cout << value << "\t";
+        }
+        std::cout << std::endl;
+    }
+	//Accessing and printing the map contents
+	for (const auto& pair : word_map) {
+		 std::cout << pair.first << ": ";
+		 if(!pair.second.empty()){
+			 for (const auto& str : pair.second) {
+				 std::cout << str.first << "|" << str.second << " ";
+			 }
+		 }
+		 std::cout << std::endl;
+		 std::cout << std::endl;
+		 std::cout << std::endl;
+	 }
 }
 
 void game_t::generate_start_word(){
@@ -269,6 +319,13 @@ void game_t::generate_start_clues(word_t *start_word_p){
 }
 
 void game_t::draw_text(){
+	sf::Vector2i horiz_clue_pixel_pos(0,0);
+	sf::Vector2i vert_clue_pixel_pos(200,0);
+	sf::Vector2f horiz_clue_world_pos = window.mapPixelToCoords(horiz_clue_pixel_pos);
+	sf::Vector2f vert_clue_world_pos = window.mapPixelToCoords(vert_clue_pixel_pos);
+	
+	horiz_clue_txt.setPosition(horiz_clue_world_pos.x, horiz_clue_world_pos.y);
+	vert_clue_txt.setPosition(vert_clue_world_pos.x, vert_clue_world_pos.y);
 	window.draw(horiz_clue_txt);
 	window.draw(vert_clue_txt);
 }
@@ -281,7 +338,7 @@ void game_t::update_view(){
 		y = cursor.word_p->tile_list.begin()->pos.y + TILE_HEIGHT/2;
 	}
 	//std::cout << cursor.word_p->tile_list.begin()->pos.y + cursor.word_p->tile_list.size() * TILE_HEIGHT << std::endl;
-	view.move(0, view.getCenter().y < y ? 1 : view.getCenter().y > y ? -1 : 0);
+	view.move(0, view.getCenter().y < y ? 2 : view.getCenter().y > y ? -2 : 0);
 	//std::cout << view.getCenter().x << std::endl;
 	window.setView(view);
 

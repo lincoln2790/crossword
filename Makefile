@@ -23,3 +23,7 @@ run:
 
 clean:
 	rm -f *.exe $(OBJ_DIR)/*.o
+	
+wordmap:
+	gcc -o serial serial.cpp -IC:\cereal-1.3.2\cereal-1.3.2\include -lstdc++
+	./serial

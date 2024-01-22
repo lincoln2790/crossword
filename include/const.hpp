@@ -39,6 +39,7 @@ const std::string HORIZ_STR = "HORIZONTAL: \n";
 const std::string VERT_STR = "VERTICAL: \n";
 constexpr const char* WORD_LIST_STR = RESOURCE_STR "word_list.txt";
 constexpr const char* CLUE_LIST_STR = RESOURCE_STR "clue_list.txt";
+constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrosswords.csv";
 
 const sf::Color RED = sf::Color(255, 0, 0, 255);
 const sf::Color L_RED = sf::Color(255, 128, 128, 255);
