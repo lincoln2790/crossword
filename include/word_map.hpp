@@ -10,9 +10,10 @@
 #include <vector>
 #include <utility>
 #include <string>
-#define RESOURCE_STR "./resources/"
+//#define RESOURCE_STR "./resources/"
+#include "../include/const.hpp"
 //#define NUM_CLUES 1000
-constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrossword.csv";
+//constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrossword.csv";
 
 class word_map_t {
 	public:

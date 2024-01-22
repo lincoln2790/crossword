@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "const.hpp"
+#include "sf_const.hpp"
 #include "word.hpp"
 
 class word_t;

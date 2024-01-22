@@ -11,6 +11,7 @@
 #include <iterator>
  
 #include "const.hpp"
+#include "sf_const.hpp"
 #include "tile.hpp"
 #include "word.hpp"
 #include "cursor.hpp"

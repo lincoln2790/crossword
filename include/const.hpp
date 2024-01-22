@@ -1,8 +1,9 @@
 #ifndef CONST_H
 #define CONST_H
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include <string>
+//#include <SFML/Graphics.hpp>
+//#include <SFML/Window.hpp>
 /*
 Naming Conventions
 - All CAPS for constants and #define variables
@@ -29,23 +30,20 @@ Prefixes
 #define A_COL_IND 3
 #define A_ROW_IND 2
 #define NUM_LETTERS 26
+#define NUM_CLUES 1000
 #define RESOURCE_STR "./resources/"
 
 const std::string TITLE_STR = "CROSSWORD";
 const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set.png";
 const std::string ICON_STR =  RESOURCE_STR "nyt_logo.png";
 const std::string FONT_STR =  RESOURCE_STR "arial.ttf";
+const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";
+
 const std::string HORIZ_STR = "HORIZONTAL: \n";
 const std::string VERT_STR = "VERTICAL: \n";
 constexpr const char* WORD_LIST_STR = RESOURCE_STR "word_list.txt";
 constexpr const char* CLUE_LIST_STR = RESOURCE_STR "clue_list.txt";
-//constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrosswords.csv";
-
-const sf::Color RED = sf::Color(255, 0, 0, 255);
-const sf::Color L_RED = sf::Color(255, 128, 128, 255);
-const sf::Color L_GREY = sf::Color(191, 191, 191, 255);
-const sf::Color WHITE = sf::Color(255, 255, 255, 255);
-const sf::Color GREY = sf::Color(128, 128, 128, 255);
+constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrosswords_shuffled.csv";
 
 enum state_t{
 	IDLE,

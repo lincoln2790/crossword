@@ -5,7 +5,8 @@ SRCS := cursor.cpp game.cpp main.cpp tile.cpp word.cpp
 SRCS_WITH_PATH := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS := $(patsubst %.cpp,obj/%.o,$(SRCS))
 TARGET := crossword
-CXXFLAGS :=  -IC:/SFML-2.5.1/include -DSFML_STATIC -fpermissive -mwindows -static -IC:\cereal-1.3.2\cereal-1.3.2\include -lstdc++
+SERIALFLAGS := -IC:\cereal-1.3.2\cereal-1.3.2\include -lstdc++
+CXXFLAGS :=  -IC:/SFML-2.5.1/include -DSFML_STATIC -fpermissive -mwindows -static $(SERIALFLAGS)
 
 LDFLAGS :=  -LC:/SFML-2.5.1/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32
 
@@ -19,12 +20,9 @@ $(TARGET) : $(OBJS)
 $(OBJ_DIR)/%.o:  $(SRC_DIR)/%.cpp
 	$(CXX) -c $^ -o $@ $(CXXFLAGS)
 
-run:
-	./$(TARGET)
-
 clean:
 	rm -f *.exe $(OBJ_DIR)/*.o
 	
 wordmap:
-	gcc -o serial serial.cpp -IC:\cereal-1.3.2\cereal-1.3.2\include -lstdc++
-	./serial
+	gcc -o build_word_map $(SRC_DIR)/word_mapper.cpp $(SERIALFLAGS)
+	./build_word_map

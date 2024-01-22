@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include "const.hpp"
+#include "sf_const.hpp"
 #include "tile.hpp"
 
 class tile_t; // words contain tiles, tiles contain a pointer to a crossing word

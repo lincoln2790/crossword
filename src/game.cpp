@@ -72,99 +72,23 @@ void game_t::build_sprite_map(){
 
 
 void game_t::build_word_map(){
-	//std::ifstream file;
-	//std::ifstream clue_file;
-	////file.open ("word_list.txt");
-	//file.open (WORD_LIST_STR);
-	//clue_file.open(CLUE_LIST_STR);
-	//std::string word;
-	//std::string clue_str;
-	//int w = 0;
-	//for(char c = 'a'; c <= 'z' ; c++){
-		//word_map[c] = {} ;
-	//}
-	//while (file >> word){
-		//std::getline(clue_file, clue_str);
-		////std::cout << clue << std::endl;
-		//for(int i = 0; i < word.length(); i++){
-			//std::pair<std::string, std::string> pair(word,clue_str);
-			//if(word_map[word[i]].empty() || word_map[word[i]].back() != pair){
-				//word_map[word[i]].push_back(pair);
-			//}
-		//}
-		//w++;
-	//}
-	 ////Accessing and printing the map contents
-	 //for (const auto& pair : word_map) {
-		 //std::cout << pair.first << ": ";
-		 //if(!pair.second.empty()){
-			 //for (const auto& str : pair.second) {
-				 //std::cout << str.first << "|" << str.second << " ";
+	word_map_t loadedObject;
+	std::ifstream is(WORD_MAP_STR);
+	cereal::JSONInputArchive archive(is);
+	archive(loadedObject);
+	
+	//for (auto pair = loadedObject.word_map.begin(); pair != loadedObject.word_map.end(); ++pair){
+		//std::cout << pair->first <<std::endl;
+		 //if(!pair->second.empty()){
+			 //for (const auto& str : pair->second) {
+				 //std::cout << str.first << "|" << str.second << "\n ";
 			 //}
 		 //}
 		 //std::cout << std::endl;
 		 //std::cout << std::endl;
 		 //std::cout << std::endl;
-	 //}
- //// Specify the path to your CSV file
-
-    //// Open the CSV file using std::ifstream
-    //std::ifstream csvFile;
-    //csvFile.open(NYT_CLUES_STR);
-
-       //// Define a vector to store each row of data
-    //std::vector<std::vector<std::string>> data;
-
-    //// Read the CSV file line by line
-    //std::string line;
-    //while (getline(csvFile, line)) {
-        //// Use a stringstream to split the line into individual values
-        //std::stringstream ss(line);
-        //std::vector<std::string> row;
-		////std::cout << line << std::endl;
-        //// Read each value separated by commas
-        //std::string value;
-        //while (getline(ss, value, ',')) {
-            //row.push_back(value);
-        //}
-
-        //// Add the row to the data vector
-        //data.push_back(row);
-    //}
-
-    //// Close the CSV file
-    //csvFile.close();
-
-	//// Display the read data
-    //for (const auto& row : data) {
-        //for (const auto& value : row) {
-            //std::cout << value << "\t";
-        //}
-        //std::cout << std::endl;
-    //}
-	//{
-        word_map_t loadedObject;
-        std::ifstream is("./word_map.json");
-        cereal::JSONInputArchive archive(is);
-        archive(loadedObject);
-		//std::exit(0);
-		for (auto pair = loadedObject.word_map.begin(); pair != loadedObject.word_map.end(); ++pair){
-		//for(auto i : loadedObject){
-		//}
-		//
-			std::cout << pair->first <<std::endl;
-			 if(!pair->second.empty()){
-				 for (const auto& str : pair->second) {
-					 std::cout << str.first << "|" << str.second << "\n ";
-				 }
-			 }
-			 std::cout << std::endl;
-			 std::cout << std::endl;
-			 std::cout << std::endl;
-		}
-		word_map = loadedObject.word_map;
 	//}
-	
+	word_map = loadedObject.word_map;
 }
 
 void game_t::generate_start_word(){
@@ -331,7 +255,8 @@ void game_t::generate_start_clues(word_t *start_word_p){
 
 void game_t::draw_text(){
 	sf::Vector2i horiz_clue_pixel_pos(0,0);
-	sf::Vector2i vert_clue_pixel_pos(200,0);
+	sf::Vector2i vert_clue_pixel_pos(WINDOW_WIDTH/2,0);
+
 	sf::Vector2f horiz_clue_world_pos = window.mapPixelToCoords(horiz_clue_pixel_pos);
 	sf::Vector2f vert_clue_world_pos = window.mapPixelToCoords(vert_clue_pixel_pos);
 	
@@ -342,14 +267,17 @@ void game_t::draw_text(){
 }
 
 void game_t::update_view(){
-	int y;
+	int x, y;
 	if(!cursor.word_p->is_horiz){
+		x = cursor.word_p->tile_list.begin()->pos.x + TILE_WIDTH/2;
 		y =  cursor.word_p->tile_list.begin()->pos.y + cursor.word_p->tile_list.size() * TILE_HEIGHT ;
 	} else {
+		x =  cursor.word_p->tile_list.begin()->pos.x + cursor.word_p->tile_list.size() * TILE_WIDTH ;
 		y = cursor.word_p->tile_list.begin()->pos.y + TILE_HEIGHT/2;
 	}
 	//std::cout << cursor.word_p->tile_list.begin()->pos.y + cursor.word_p->tile_list.size() * TILE_HEIGHT << std::endl;
-	view.move(0, view.getCenter().y < y ? 2 : view.getCenter().y > y ? -2 : 0);
+	view.move(view.getCenter().x < x ? 2 : view.getCenter().x > x ? -2 : 0
+			, view.getCenter().y < y ? 2 : view.getCenter().y > y ? -2 : 0);
 	//std::cout << view.getCenter().x << std::endl;
 	window.setView(view);
 

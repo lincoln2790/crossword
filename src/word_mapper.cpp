@@ -1,9 +1,8 @@
-#include <iterator>
-//
 #include <cereal/archives/json.hpp>
 #include <cereal/types/map.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
+#include <iterator>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -11,9 +10,53 @@
 #include <vector>
 #include <utility>
 #include <string>
+#include <algorithm>
+#include <ctime>
+#include <cstdlib>
 
 #define RESOURCE_STR "./resources/"
-#define NUM_CLUES 2000
+#define NUM_CLUES 500
+
+// Function to read CSV file into a vector of vectors
+std::vector<std::vector<std::string>> readCSV(const std::string& filename) {
+    std::ifstream file(filename);
+    std::vector<std::vector<std::string>> data;
+
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::istringstream iss(line);
+            std::string token;
+            std::vector<std::string> row;
+
+            while (std::getline(iss, token, ',')) {
+                row.push_back(token);
+            }
+
+            data.push_back(row);
+        }
+        file.close();
+    } else {
+        std::cerr << "Unable to open file: " << filename << std::endl;
+    }
+
+    return data;
+}
+
+// Function to write vector of vectors to CSV file
+void writeCSV(const std::vector<std::vector<std::string>>& data, const std::string& filename) {
+    std::ofstream file(filename);
+
+    if (file.is_open()) {
+        for (const auto& row : data) {
+            std::copy(row.begin(), row.end() - 1, std::ostream_iterator<std::string>(file, ","));
+            file << row.back() << std::endl;
+        }
+        file.close();
+    } else {
+        std::cerr << "Unable to open file: " << filename << std::endl;
+    }
+}
 constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrossword.csv";
 class word_map_t {
 	public:
@@ -63,7 +106,16 @@ namespace cereal {
 }
 
 int main(){
- // Specify the path to your CSV file
+    std::string csv_file = "./resources/nytcrossword.csv";
+    auto csv = readCSV(csv_file);
+
+	std::srand(std::time(0));
+    // Shuffle the rows
+    std::random_shuffle(csv.begin(), csv.end());
+
+    // Save the shuffled data back to the CSV file
+    std::string shuffled_csv_file = "./resources/nytcrossword_shuffled.csv";
+    writeCSV(csv, shuffled_csv_file);// Specify the path to your CSV file
 	word_map_t word_map;
 	for(char c = 'a'; c <= 'z' ; c++){
 		word_map.word_map[c] = {} ;
@@ -101,7 +153,6 @@ int main(){
     // Close the CSV file
     csvFile.close();
 
-	//return 0;
 	// Display the read data
 	for (const auto& row : data) {
 		//std::cout << uu?
@@ -115,7 +166,6 @@ int main(){
 			}
 		}
 	}
-	//return 0;
 	//Accessing and printing the map contents
 	//for (const auto& pair : word_map.word_map) {
 		 //std::cout << pair.first << ": ";
@@ -128,44 +178,29 @@ int main(){
 		 //std::cout << std::endl;
 		 //std::cout << std::endl;
 	 //}
-	//return 0;
 	{
-        std::ofstream os("word_map.json");
+        std::ofstream os(RESOURCE_STR "word_map.json");
         cereal::JSONOutputArchive archive(os);
         archive(word_map);
     }
-	{
-        word_map_t loadedObject;
-        std::ifstream is("word_map.json");
-        cereal::JSONInputArchive archive(is);
-        archive(loadedObject);
-		for (auto pair = loadedObject.word_map.begin(); pair != loadedObject.word_map.end(); ++pair){
-		//for(auto i : loadedObject){
-		//}
-			std::cout << pair->first <<std::endl;
-			 if(!pair->second.empty()){
-				 for (const auto& str : pair->second) {
-					 std::cout << str.first << "|" << str.second << "\n ";
-				 }
-			 }
-			 std::cout << std::endl;
-			 std::cout << std::endl;
-			 std::cout << std::endl;
-
-
-		//for (const auto& pair : loadedObject)) {
-			 //std::cout << pair.first << ": ";
-			 //if(!pair.second.empty()){
-				 //for (const auto& str : pair.second) {
+	//{
+        //word_map_t loadedObject;
+        //std::ifstream is(RESOURCE_STR "word_map.json");
+        //cereal::JSONInputArchive archive(is);
+        //archive(loadedObject);
+		//for (auto pair = loadedObject.word_map.begin(); pair != loadedObject.word_map.end(); ++pair){
+		////for(auto i : loadedObject){
+		////}
+			//std::cout << pair->first <<std::endl;
+			 //if(!pair->second.empty()){
+				 //for (const auto& str : pair->second) {
 					 //std::cout << str.first << "|" << str.second << "\n ";
 				 //}
 			 //}
 			 //std::cout << std::endl;
 			 //std::cout << std::endl;
 			 //std::cout << std::endl;
-		 }
-        // Now 'loadedObject' contains the deserialized information
-        // You can access it as needed
-    }
+		 //}
+    //}
 	return 0;
 }
