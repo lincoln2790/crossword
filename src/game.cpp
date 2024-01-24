@@ -46,11 +46,11 @@ game_t::game_t() :
 
 sf::Sprite game_t::get_tile_sprite(char letter){
 	int x,y;
-	if(letter == 0) {
+	if(letter < 'a') { //special tile sprites ie. not letters
 		sf::Sprite blank_sprite;
 		blank_sprite.setTexture(tile_texture);
 		blank_sprite.setScale(TILE_SCALE,TILE_SCALE);
-		blank_sprite.setTextureRect(sf::IntRect(0, 0, TILE_WIDTH, TILE_HEIGHT));
+		blank_sprite.setTextureRect(sf::IntRect(TILE_WIDTH*letter, 0, TILE_WIDTH, TILE_HEIGHT));
 		return blank_sprite;
 	}
 	if(letter >= 'a') letter = letter - ('a' - 'A');
@@ -101,15 +101,14 @@ void game_t::generate_start_word(){
 
 }
 
-void game_t::draw_word_box(word_t word, sf::Color color){
+void game_t::draw_word_box(word_t word, int letter_code){
+	sf::Sprite tile_sprite = get_tile_sprite(letter_code);
 	for(auto it = word.tile_list.begin(); it != word.tile_list.end(); ++it){
-		//std::cout << &it->sprite << std::endl;
-		sf::Sprite tile = it->blank_sprite;
-		tile.setColor(color);
-		//if(it->is_correct) tile.setColor(sf::Color(WHITE);
-		//else tile.setColor(GREY);
-		//
-		window.draw(tile);
+		//sf::Sprite tile = it->blank_sprite;
+		//tile.setColor(color);
+		tile_sprite.setPosition(it->pos);
+		//sprite.set
+		window.draw(tile_sprite);
 	}
 }
 
@@ -154,9 +153,9 @@ void game_t::draw_cursor_word(){
 	for(auto it = cursor.word_p->tile_list.begin(); it != cursor.word_p->tile_list.end();++it){
 		if(it->cross_word_p != NULL){
 			if(it->cross_word_p->is_correct)   
-			draw_word_box(*it->cross_word_p, WHITE);
+			draw_word_box(*it->cross_word_p, TILE_SPRITE_0);
 			else
-			draw_word_box(*it->cross_word_p, L_RED);
+			draw_word_box(*it->cross_word_p, TILE_SPRITE_0);
 		}
 		
 		sf::Sprite cursor_tile;

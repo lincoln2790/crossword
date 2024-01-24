@@ -80,11 +80,11 @@ int main() {
 				break;
 			case PLAYING:
 				for(auto word : game.word_list){
-					if(!word.is_correct) game.draw_word_box(word, GREY);
+					if(!word.is_correct) game.draw_word_box(word, TILE_SPRITE_0);
 
 				}
 				for(auto word : game.word_list){
-					if(word.is_correct) game.draw_word_box(word, WHITE);
+					if(word.is_correct) game.draw_word_box(word, TILE_SPRITE_0);
 
 				}
 				game.draw_cursor_word();

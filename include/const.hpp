@@ -32,6 +32,11 @@ Prefixes
 #define NUM_LETTERS 26
 #define NUM_CLUES 1000
 #define RESOURCE_STR "./resources/"
+#define TILE_SPRITE_0 0
+#define TILE_SPRITE_1 1
+#define TILE_SPRITE_2 2
+#define TILE_SPRITE_3 3
+
 
 const std::string TITLE_STR = "CROSSWORD";
 const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set.png";
@@ -44,6 +49,7 @@ const std::string VERT_STR = "VERTICAL: \n";
 constexpr const char* WORD_LIST_STR = RESOURCE_STR "word_list.txt";
 constexpr const char* CLUE_LIST_STR = RESOURCE_STR "clue_list.txt";
 constexpr const char* NYT_CLUES_STR = RESOURCE_STR "nytcrosswords_shuffled.csv";
+
 
 enum state_t{
 	IDLE,

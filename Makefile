@@ -8,7 +8,7 @@ TARGET := crossword
 SERIALFLAGS := -IC:\cereal-1.3.2\cereal-1.3.2\include -lstdc++
 CXXFLAGS :=  -IC:/SFML-2.5.1/include -DSFML_STATIC -fpermissive -mwindows -static $(SERIALFLAGS)
 
-LDFLAGS :=  -LC:/SFML-2.5.1/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32
+LDFLAGS :=  -LC:/SFML-2.5.1/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 
 
 
 all: $(TARGET)
