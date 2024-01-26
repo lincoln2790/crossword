@@ -27,8 +27,8 @@ Prefixes
 #define TILE_SCALE 2
 #define MAX_WORD_LEN 255 
 #define TILE_TEXTURE_COLS 15
-#define A_COL_IND 3
-#define A_ROW_IND 2
+#define A_COL_IND 0
+#define A_ROW_IND 1
 #define NUM_LETTERS 26
 #define NUM_CLUES 1000
 #define RESOURCE_STR "./resources/"
@@ -36,10 +36,11 @@ Prefixes
 #define TILE_SPRITE_1 1
 #define TILE_SPRITE_2 2
 #define TILE_SPRITE_3 3
+#define TILE_SPRITE_4 4
 
 
 const std::string TITLE_STR = "CROSSWORD";
-const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set.png";
+const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set_4.png";
 const std::string ICON_STR =  RESOURCE_STR "nyt_logo.png";
 const std::string FONT_STR =  RESOURCE_STR "arial.ttf";
 const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";

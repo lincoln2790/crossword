@@ -80,15 +80,15 @@ int main() {
 				break;
 			case PLAYING:
 				for(auto word : game.word_list){
-					if(!word.is_correct) game.draw_word_box(word, TILE_SPRITE_0);
+					if(!word.is_correct) game.draw_word_box(word, TILE_SPRITE_4);
 
 				}
 				for(auto word : game.word_list){
-					if(word.is_correct) game.draw_word_box(word, TILE_SPRITE_0);
+					if(word.is_correct) game.draw_word_box(word, TILE_SPRITE_3);
 
 				}
 				game.draw_cursor_word();
-				game.draw_text();
+				//game.draw_text();
 				break;
 		}
 		game.window.display();

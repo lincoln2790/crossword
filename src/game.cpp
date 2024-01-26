@@ -151,42 +151,38 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_in
 
 void game_t::draw_cursor_word(){
 	for(auto it = cursor.word_p->tile_list.begin(); it != cursor.word_p->tile_list.end();++it){
+		sf::Sprite cursor_tile;
+		sf::Sprite letter_tile;
 		if(it->cross_word_p != NULL){
 			if(it->cross_word_p->is_correct)   
-			draw_word_box(*it->cross_word_p, TILE_SPRITE_0);
+				draw_word_box(*it->cross_word_p, TILE_SPRITE_0);
 			else
-			draw_word_box(*it->cross_word_p, TILE_SPRITE_0);
+				draw_word_box(*it->cross_word_p, TILE_SPRITE_1);
 		}
-		
-		sf::Sprite cursor_tile;
 
-		if(cursor.word_p->is_correct){
-			if(it == cursor.tile_it){
-				cursor_tile = sprite_map[it->letter];
-			}
-		}else {
+		if(it != cursor.tile_it){
 			if(it->is_correct){
-				cursor_tile = sprite_map[it->letter];
-			}else {
-				cursor_tile = sprite_map[it->cursor_letter];
-			}
-		}
-
-		cursor_tile.setPosition(it->pos);
-
-		if(it != cursor.tile_it && !it->is_correct) cursor_tile.setColor(L_GREY);
-		else if(it == cursor.tile_it)   cursor_tile.setColor(RED);
-
-		if(cursor.word_p->is_correct){
-			if(it == cursor.tile_it){
-				window.draw(cursor_tile);
-			}else{
-				window.draw(it->sprite);
+				cursor_tile = get_tile_sprite(TILE_SPRITE_3);
+			} else {
+				cursor_tile = get_tile_sprite(TILE_SPRITE_3);
 			}
 		}else {
-			window.draw(cursor_tile);
+			cursor_tile = get_tile_sprite(TILE_SPRITE_2);
 		}
+		cursor_tile.setPosition(it->pos);
+		window.draw(cursor_tile);
+
+		
+		//if(it->is_correct){
+			//letter_tile = sprite_map[it->letter];
+		//} else {
+			//letter_tile = sprite_map[it->cursor_letter];
+		//}
+
+		//letter_tile.setPosition(it->pos);
+		//window.draw(letter_tile);
 	}
+	
 }
 void game_t::handle_key_input(sf::Keyboard::Key key_code){
 	if(key_code == sf::Keyboard::Key::Up ||key_code == sf::Keyboard::Key::Down ||key_code == sf::Keyboard::Key::Left ||key_code == sf::Keyboard::Key::Right ){
