@@ -16,7 +16,7 @@ class animation_t{
 		int sprite_height;
 		game_t *game_p;
 		
-		animation_t(int w, int h,int x, int y, game_t *game_p);
+		animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p);
 		void draw_sprite(int sprite_index);
 
 };

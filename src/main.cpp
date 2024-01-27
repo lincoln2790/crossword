@@ -7,7 +7,8 @@
 
 int main() {
 	game_t game;
-	animation_t ani(800, 600, 0,0, &game);
+	animation_t ani(ANI_STR,800, 600, 0,0, &game);
+	animation_t box(CLUE_BOX_STR,799, 150, 0,450, &game);
 
 	while(game.window.isOpen()){
 		sf::Event event;
@@ -93,6 +94,7 @@ int main() {
 
 				}
 				game.draw_cursor_word();
+				box.draw_sprite(0);
 				game.draw_text();
 				break;
 		}

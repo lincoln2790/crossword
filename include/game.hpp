@@ -22,8 +22,8 @@ class game_t{
 		sf::View view;
 		sf::Texture tile_texture;
 		sf::Font font;
-		sf::Text horiz_clue_txt;
-		sf::Text vert_clue_txt;
+		sf::Text across_clue_txt;
+		sf::Text down_clue_txt;
 		std::map<char, sf::Sprite> sprite_map;
 		std::map<char,std::vector<std::pair<std::string, std::string>>> word_map;
 		std::list<word_t> word_list;

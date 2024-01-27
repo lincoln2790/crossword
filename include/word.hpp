@@ -16,9 +16,9 @@ class word_t{
 	std::string word_str;
 	std::string clue_str;
 	int is_correct;
-	int is_horiz;
+	int is_across;
 	
-	word_t(std::string word_str, std::string clue_str, float x, float y, int is_horiz, int is_correct, game_t *game_p);
+	word_t(std::string word_str, std::string clue_str, float x, float y, int is_across, int is_correct, game_t *game_p);
 };
 
 #endif

@@ -1,8 +1,8 @@
 #include "../include/tile.hpp"
 
-tile_t::tile_t(char l, float x, float y, int is_horiz, int is_correct, sf::Sprite s, sf::Sprite b):
+tile_t::tile_t(char l, float x, float y, int is_across, int is_correct, sf::Sprite s, sf::Sprite b):
 	letter(l),
-	is_horiz(is_horiz),
+	is_across(is_across),
 	is_correct(is_correct),
 	sprite(s),
 	blank_sprite(b),

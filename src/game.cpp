@@ -12,30 +12,30 @@ game_t::game_t() :
 	tile_texture.setSmooth(true);
 	font.loadFromFile(FONT_STR);
 	
-	horiz_clue_txt.setFont(font);
-	horiz_clue_txt.setCharacterSize(24);
-	horiz_clue_txt.setFillColor(WHITE);
-	horiz_clue_txt.setString(" ");
+	across_clue_txt.setFont(font);
+	across_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
+	across_clue_txt.setFillColor(WHITE);
+	across_clue_txt.setString(" ");
+	across_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 
-	vert_clue_txt.setFont(font);
-	vert_clue_txt.setCharacterSize(24);
-	vert_clue_txt.setFillColor(WHITE);
-	vert_clue_txt.setString(" ");
-	vert_clue_txt.setPosition(200,0);
+	down_clue_txt.setFont(font);
+	down_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
+	down_clue_txt.setFillColor(WHITE);
+	down_clue_txt.setString(" ");
+	down_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 	
 	build_sprite_map();
 	build_word_map();
 
-	//exit(0);
 	generate_start_word();
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
-	if(cursor.word_p->is_horiz){
-		horiz_clue_txt.setString(HORIZ_STR + cursor.word_p->clue_str);
-		vert_clue_txt.setString(VERT_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
+	if(cursor.word_p->is_across){
+		across_clue_txt.setString(ACROSS_STR + cursor.word_p->clue_str);
+		down_clue_txt.setString(DOWN_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
 	}else{
-		horiz_clue_txt.setString(HORIZ_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
-		vert_clue_txt.setString(VERT_STR + cursor.word_p->clue_str);
+		across_clue_txt.setString(ACROSS_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
+		down_clue_txt.setString(DOWN_STR + cursor.word_p->clue_str);
 	}
 	sf::Image icon;
 	icon.loadFromFile(ICON_STR);
@@ -130,7 +130,7 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_in
 	std::vector<int> v = find_letter_indices(s, (*tile_it_p)->letter);
 	int tile_index = v[rand() % v.size()];
 	
-	if((*tile_it_p)->is_horiz){
+	if((*tile_it_p)->is_across){
 		 word_t w(s, clue, (*tile_it_p)->pos.x,(*tile_it_p)->pos.y - TILE_HEIGHT*TILE_SCALE*tile_index ,false, false, this);
 	} else {
 		word_t w(s, clue, (*tile_it_p)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it_p)->pos.y, true, false, this);
@@ -198,7 +198,7 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 		} else if (key_code == sf::Keyboard::Key::Down || key_code == sf::Keyboard::Key::Right){
 			boundary_it = --cursor.word_p->tile_list.end();
 		}
-		int input_along_word = (cursor.word_p->is_horiz &&  (key_code == sf::Keyboard::Key::Left || key_code == sf::Keyboard::Key::Right) ) || (!cursor.word_p->is_horiz &&  (key_code == sf::Keyboard::Key::Up || key_code == sf::Keyboard::Key::Down));
+		int input_along_word = (cursor.word_p->is_across &&  (key_code == sf::Keyboard::Key::Left || key_code == sf::Keyboard::Key::Right) ) || (!cursor.word_p->is_across &&  (key_code == sf::Keyboard::Key::Up || key_code == sf::Keyboard::Key::Down));
 		int is_forward =  (key_code == sf::Keyboard::Key::Down || key_code == sf::Keyboard::Key::Right) ? 1 : (key_code == sf::Keyboard::Key::Up || key_code == sf::Keyboard::Key::Left) ? -1 : 0;
 
 		if(input_along_word ){
@@ -238,12 +238,12 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 			std::advance(cursor.tile_it, -1);
 		}
 	}
-	if(cursor.word_p->is_horiz){
-		horiz_clue_txt.setString(HORIZ_STR + cursor.word_p->clue_str);
-		vert_clue_txt.setString(VERT_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
+	if(cursor.word_p->is_across){
+		across_clue_txt.setString(ACROSS_STR + cursor.word_p->clue_str);
+		down_clue_txt.setString(DOWN_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
 	}else{
-		horiz_clue_txt.setString(HORIZ_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
-		vert_clue_txt.setString(VERT_STR + cursor.word_p->clue_str);
+		across_clue_txt.setString(ACROSS_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
+		down_clue_txt.setString(DOWN_STR + cursor.word_p->clue_str);
 	}
 }
 
@@ -255,21 +255,21 @@ void game_t::generate_start_clues(word_t *start_word_p){
 }
 
 void game_t::draw_text(){
-	sf::Vector2i horiz_clue_pixel_pos(0,0);
-	sf::Vector2i vert_clue_pixel_pos(WINDOW_WIDTH/2,0);
+	sf::Vector2i across_clue_pixel_pos(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
+	sf::Vector2i down_clue_pixel_pos(DOWN_CLUE_TEXT_X,DOWN_CLUE_TEXT_Y);
 
-	sf::Vector2f horiz_clue_world_pos = window.mapPixelToCoords(horiz_clue_pixel_pos);
-	sf::Vector2f vert_clue_world_pos = window.mapPixelToCoords(vert_clue_pixel_pos);
+	sf::Vector2f across_clue_world_pos = window.mapPixelToCoords(across_clue_pixel_pos);
+	sf::Vector2f down_clue_world_pos = window.mapPixelToCoords(down_clue_pixel_pos);
 	
-	horiz_clue_txt.setPosition(horiz_clue_world_pos.x, horiz_clue_world_pos.y);
-	vert_clue_txt.setPosition(vert_clue_world_pos.x, vert_clue_world_pos.y);
-	window.draw(horiz_clue_txt);
-	window.draw(vert_clue_txt);
+	across_clue_txt.setPosition(across_clue_world_pos.x, across_clue_world_pos.y);
+	down_clue_txt.setPosition(down_clue_world_pos.x, down_clue_world_pos.y);
+	window.draw(across_clue_txt);
+	window.draw(down_clue_txt);
 }
 
 void game_t::update_view(){
 	int x, y;
-	if(!cursor.word_p->is_horiz){
+	if(!cursor.word_p->is_across){
 		x = cursor.word_p->tile_list.begin()->pos.x + TILE_WIDTH/2;
 		y =  cursor.word_p->tile_list.begin()->pos.y + cursor.word_p->tile_list.size() * TILE_HEIGHT ;
 	} else {
