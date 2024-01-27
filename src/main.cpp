@@ -73,22 +73,23 @@ int main() {
 		//game.wiow.move(100.f, 100.f);
 		//game.view.move(1.0f, 0.0f);
 		//game.window.setView(game.view);
-		game.window.clear(sf::Color::Black);
+		game.window.clear(BACKGROUND_COLOR);
+		
 		game.update_view();
 		switch(game.state){
 			case IDLE:
 				break;
 			case PLAYING:
 				for(auto word : game.word_list){
-					if(!word.is_correct) game.draw_word_box(word, TILE_SPRITE_4);
+					if(!word.is_correct) game.draw_word_box(word, BG_INCORRECT);
 
 				}
 				for(auto word : game.word_list){
-					if(word.is_correct) game.draw_word_box(word, TILE_SPRITE_3);
+					if(word.is_correct) game.draw_word_box(word, BG_CORRECT);
 
 				}
 				game.draw_cursor_word();
-				//game.draw_text();
+				game.draw_text();
 				break;
 		}
 		game.window.display();

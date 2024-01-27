@@ -43,6 +43,7 @@ class game_t{
 		void generate_start_clues(word_t *start_word_p);
 		void draw_text();
 		void update_view();
+		void update_character_pos();
 };
 
 #endif

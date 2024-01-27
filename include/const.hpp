@@ -28,21 +28,26 @@ Prefixes
 #define MAX_WORD_LEN 255 
 #define TILE_TEXTURE_COLS 15
 #define A_COL_IND 0
-#define A_ROW_IND 1
+#define A_ROW_IND 3
 #define NUM_LETTERS 26
 #define NUM_CLUES 1000
 #define RESOURCE_STR "./resources/"
-#define TILE_SPRITE_0 0
-#define TILE_SPRITE_1 1
-#define TILE_SPRITE_2 2
-#define TILE_SPRITE_3 3
-#define TILE_SPRITE_4 4
+#define CW_CORRECT 0
+#define CW_INCORRECT 1
+#define CT_CORRECT 2
+#define CT_INCORRECT 3
+#define BG_CORRECT 4
+#define BG_INCORRECT 5
+#define CURSOR_CROSS_WORD_CORRECT 6
+#define CURSOR_CROSS_WORD_INCORRECT 7
+
+#define NUM_TILE_SPRITES 8
 
 
 const std::string TITLE_STR = "CROSSWORD";
-const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set_4.png";
+const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set_3.png";
 const std::string ICON_STR =  RESOURCE_STR "nyt_logo.png";
-const std::string FONT_STR =  RESOURCE_STR "arial.ttf";
+const std::string FONT_STR =  RESOURCE_STR "cooper_black.ttf";
 const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";
 
 const std::string HORIZ_STR = "HORIZONTAL: \n";

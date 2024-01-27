@@ -67,7 +67,9 @@ void game_t::build_sprite_map(){
 	for(char c = 'a'; c <= 'z'; c++){
 		sprite_map.insert(std::make_pair(c, get_tile_sprite(c)));
 	}
-	sprite_map.insert(std::make_pair(0, get_tile_sprite(0)));
+	for(int i = 0; i < NUM_TILE_SPRITES; i++){
+		sprite_map.insert(std::make_pair(i, get_tile_sprite(i)));
+	}
 }
 
 
@@ -155,32 +157,36 @@ void game_t::draw_cursor_word(){
 		sf::Sprite letter_tile;
 		if(it->cross_word_p != NULL){
 			if(it->cross_word_p->is_correct)   
-				draw_word_box(*it->cross_word_p, TILE_SPRITE_0);
+				draw_word_box(*it->cross_word_p, CURSOR_CROSS_WORD_CORRECT);
 			else
-				draw_word_box(*it->cross_word_p, TILE_SPRITE_1);
+				draw_word_box(*it->cross_word_p, CURSOR_CROSS_WORD_INCORRECT);
 		}
 
 		if(it != cursor.tile_it){
 			if(it->is_correct){
-				cursor_tile = get_tile_sprite(TILE_SPRITE_3);
+				cursor_tile = sprite_map[CW_CORRECT];
 			} else {
-				cursor_tile = get_tile_sprite(TILE_SPRITE_3);
+				cursor_tile = sprite_map[CW_INCORRECT];
 			}
 		}else {
-			cursor_tile = get_tile_sprite(TILE_SPRITE_2);
+			if(it->is_correct){
+				cursor_tile = sprite_map[CT_CORRECT];
+			} else {
+				cursor_tile = sprite_map[CT_INCORRECT];
+			}
 		}
 		cursor_tile.setPosition(it->pos);
 		window.draw(cursor_tile);
 
-		
-		//if(it->is_correct){
-			//letter_tile = sprite_map[it->letter];
-		//} else {
-			//letter_tile = sprite_map[it->cursor_letter];
-		//}
+		if(it->is_correct){
+			letter_tile = sprite_map[it->letter];
+		} else if (it->cursor_letter >= 'a'){
 
-		//letter_tile.setPosition(it->pos);
-		//window.draw(letter_tile);
+			letter_tile = sprite_map[it->cursor_letter];
+		}
+
+		letter_tile.setPosition(it->pos);
+		window.draw(letter_tile);
 	}
 	
 }
