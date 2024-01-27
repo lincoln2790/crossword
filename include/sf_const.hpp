@@ -1,5 +1,5 @@
-#ifndef SF_CONST_H
-#define SF_CONST_H
+#ifndef SF_CONST_HPP
+#define SF_CONST_HPP
 
 
 #include <SFML/Graphics.hpp>

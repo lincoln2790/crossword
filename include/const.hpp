@@ -1,5 +1,5 @@
-#ifndef CONST_H
-#define CONST_H
+#ifndef CONST_HPP
+#define CONST_HPP
 
 #include <string>
 //#include <SFML/Graphics.hpp>
@@ -49,7 +49,7 @@ const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set_3.png";
 const std::string ICON_STR =  RESOURCE_STR "nyt_logo.png";
 const std::string FONT_STR =  RESOURCE_STR "cooper_black.ttf";
 const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";
-
+const std::string ANI_STR = RESOURCE_STR "ocean.png";
 const std::string HORIZ_STR = "HORIZONTAL: \n";
 const std::string VERT_STR = "VERTICAL: \n";
 constexpr const char* WORD_LIST_STR = RESOURCE_STR "word_list.txt";

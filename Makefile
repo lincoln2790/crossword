@@ -1,7 +1,7 @@
 CXX := g++
 SRC_DIR := src
 OBJ_DIR := obj
-SRCS := cursor.cpp game.cpp main.cpp tile.cpp word.cpp
+SRCS := cursor.cpp game.cpp main.cpp tile.cpp word.cpp animation.cpp
 SRCS_WITH_PATH := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS := $(patsubst %.cpp,obj/%.o,$(SRCS))
 TARGET := crossword

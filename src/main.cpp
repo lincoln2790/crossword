@@ -3,9 +3,12 @@
 #include "../include/word.hpp"
 #include "../include/cursor.hpp"
 #include "../include/game.hpp"
+#include "../include/animation.hpp"
 
 int main() {
 	game_t game;
+	animation_t ani(800, 600, 0,0, &game);
+
 	while(game.window.isOpen()){
 		sf::Event event;
 		while(game.window.pollEvent(event)){
@@ -80,6 +83,7 @@ int main() {
 			case IDLE:
 				break;
 			case PLAYING:
+				ani.draw_sprite(0);
 				for(auto word : game.word_list){
 					if(!word.is_correct) game.draw_word_box(word, BG_INCORRECT);
 

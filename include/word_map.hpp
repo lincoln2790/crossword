@@ -1,3 +1,6 @@
+#ifndef WORD_MAP_HPP
+#define WORD_MAP_HPP
+
 #include <iterator>
 #include <cereal/archives/json.hpp>
 #include <cereal/types/map.hpp>
@@ -61,3 +64,6 @@ namespace cereal {
         ar(cereal::make_nvp("first", pair.first), cereal::make_nvp("second", pair.second));
     }
 }
+
+
+#endif
