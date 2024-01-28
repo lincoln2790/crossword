@@ -7,8 +7,8 @@
 
 int main() {
 	game_t game;
-	animation_t ani(ANI_STR,20, 20, 0,0, &game, true);
-	animation_t box(CLUE_BOX_STR,799, 150, 0,450, &game, false);
+	animation_t ani(ANI_STR,80, 80, 0,0, &game, true);
+	animation_t box(CLUE_BOX_STR,WINDOW_WIDTH, WINDOW_HEIGHT/4+100, 0, WINDOW_HEIGHT*0.75 , &game, false);
 
 	while(game.window.isOpen()){
 		sf::Event event;
@@ -69,9 +69,22 @@ int main() {
 							}
 							break;
 						case sf::Event::KeyPressed:
-							game.handle_key_input(event.key.code);
-						break;
-					}
+							game.handle_key_input(event.key.code); 
+							break;
+
+						case sf::Event::Resized:
+                                // resize my view
+							game.view.setSize({
+									static_cast<float>(event.size.width),
+									static_cast<float>(event.size.height)
+							});
+							game.window.setView(game.view);
+							// and align shape
+							//shape.setPosition(window.mapPixelToCoords(sf::Vector2i{window.getSize() / 2u}));
+                        	break;
+                	
+					//break;
+				}
 			}
 		}
 		//game.wiow.move(100.f, 100.f);

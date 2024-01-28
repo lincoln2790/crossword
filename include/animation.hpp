@@ -14,6 +14,7 @@ class animation_t{
 		sf::Vector2i pos; // pos of topleft pixel of starting frame in animation
 		int sprite_width;
 		int sprite_height;
+		int sprite_scale;
 		int is_inf;
 		game_t *game_p;
 		

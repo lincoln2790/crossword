@@ -24,7 +24,12 @@ Prefixes
 
 // Window Properties
 #define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_HEIGHT 800
+#define CLUE_BOX_WIDTH WINDOW_WIDTH
+#define CLUE_BOX_HEIGHT WINDOW_HEIGHT
+#define CLUE_BOX_X 0
+#define CLUE_BOX_Y (WINDOW_HEIGHT * 0.75)
+
 
 // Tile Properties
 #define TILE_HEIGHT 20
@@ -41,11 +46,13 @@ Prefixes
 #define A_ROW_IND 3
 
 // Text Properties
+//
+#define BORDER_OFFSET 10
 #define CLUE_FONT_SIZE 24
-#define ACROSS_CLUE_TEXT_X 10 
-#define ACROSS_CLUE_TEXT_Y 460 
-#define DOWN_CLUE_TEXT_X 410 
-#define DOWN_CLUE_TEXT_Y 460
+#define ACROSS_CLUE_TEXT_X (0 + BORDER_OFFSET)
+#define ACROSS_CLUE_TEXT_Y (WINDOW_HEIGHT*0.75 + BORDER_OFFSET)
+#define DOWN_CLUE_TEXT_X (WINDOW_WIDTH/2 + BORDER_OFFSET)
+#define DOWN_CLUE_TEXT_Y (WINDOW_HEIGHT*0.75 + BORDER_OFFSET)
 
 
 // Tile sprites
@@ -69,7 +76,7 @@ const std::string ICON_STR =  RESOURCE_STR "nyt_logo.png";
 const std::string FONT_STR =  RESOURCE_STR "cooper_black.ttf";
 const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";
 //const std::string ANI_STR = RESOURCE_STR "ocean.png";
-const std::string ANI_STR = RESOURCE_STR "Sprite-0004.png";
+const std::string ANI_STR = RESOURCE_STR "Sprite-0005.png";
 const std::string CLUE_BOX_STR = RESOURCE_STR "clue_box.png";
 const std::string ACROSS_STR = "Across: \n";
 const std::string DOWN_STR = "Down: \n";

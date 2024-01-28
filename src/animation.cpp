@@ -21,10 +21,9 @@ animation_t::animation_t(std::string texture_path, int w, int h, int x, int y, g
 void animation_t::draw_sprite(int sprite_index){
 	if(is_inf){
 		sf::Vector2i pixel_pos(0,0);
-		sprite.setScale(4,4);
 		sf::Vector2f window_pos = game_p->window.mapPixelToCoords(pixel_pos);
 		sprite.setPosition(window_pos);
-		sprite.setTextureRect(sf::IntRect(window_pos.x, window_pos.y, 800, 600));
+		sprite.setTextureRect(sf::IntRect(window_pos.x, window_pos.y, WINDOW_WIDTH, WINDOW_HEIGHT));
 	} else {
 		sf::Vector2i v(pos.x,pos.y);
 		sf::Vector2f window_pos = game_p->window.mapPixelToCoords(v);
