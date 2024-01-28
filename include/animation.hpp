@@ -14,9 +14,10 @@ class animation_t{
 		sf::Vector2i pos; // pos of topleft pixel of starting frame in animation
 		int sprite_width;
 		int sprite_height;
+		int is_inf;
 		game_t *game_p;
 		
-		animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p);
+		animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p, int is_inf);
 		void draw_sprite(int sprite_index);
 
 };

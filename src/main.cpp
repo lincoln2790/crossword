@@ -7,8 +7,8 @@
 
 int main() {
 	game_t game;
-	animation_t ani(ANI_STR,800, 600, 0,0, &game);
-	animation_t box(CLUE_BOX_STR,799, 150, 0,450, &game);
+	animation_t ani(ANI_STR,20, 20, 0,0, &game, true);
+	animation_t box(CLUE_BOX_STR,799, 150, 0,450, &game, false);
 
 	while(game.window.isOpen()){
 		sf::Event event;
@@ -85,6 +85,8 @@ int main() {
 				break;
 			case PLAYING:
 				ani.draw_sprite(0);
+				
+				
 				for(auto word : game.word_list){
 					if(!word.is_correct) game.draw_word_box(word, BG_INCORRECT);
 

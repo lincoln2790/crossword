@@ -13,6 +13,7 @@ LDFLAGS :=  -LC:/SFML-2.5.1/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-
 
 all: $(TARGET)
 	./$<
+	rm -f *.exe $(OBJ_DIR)/*.o
 
 $(TARGET) : $(OBJS)
 	$(CXX) $^ -o $@ $(LDFLAGS)
