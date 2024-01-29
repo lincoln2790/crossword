@@ -7,8 +7,8 @@
 
 int main() {
 	game_t game;
-	animation_t ani(ANI_STR,80, 80, 0,0, &game, true);
-	animation_t box(CLUE_BOX_STR,WINDOW_WIDTH, WINDOW_HEIGHT/4+100, 0, WINDOW_HEIGHT*0.75 , &game, false);
+	animation_t ani(ANI_STR, 80, 80, 0, 0, &game, true);
+	animation_t clue_box(CLUE_BOX_STR, CLUE_BOX_WIDTH, CLUE_BOX_HEIGHT, CLUE_BOX_X, CLUE_BOX_Y, &game, false);
 
 	while(game.window.isOpen()){
 		sf::Event event;
@@ -72,16 +72,20 @@ int main() {
 							game.handle_key_input(event.key.code); 
 							break;
 
+
 						case sf::Event::Resized:
-                                // resize my view
-							game.view.setSize({
-									static_cast<float>(event.size.width),
-									static_cast<float>(event.size.height)
-							});
-							game.window.setView(game.view);
-							// and align shape
-							//shape.setPosition(window.mapPixelToCoords(sf::Vector2i{window.getSize() / 2u}));
-                        	break;
+
+							// update the view to the new size of the window
+							int window_width = game.window.getSize().x;
+							int window_height = game.window.getSize().y;
+
+							int new_dim = std::max(std::min(window_width, window_height), MIN_WINDOW_DIM);
+							sf::Vector2u new_size(new_dim, new_dim);
+							game.window.setSize(new_size);
+							sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+							game.window.setView(sf::View(visibleArea));
+							
+							break;
                 	
 					//break;
 				}
@@ -100,16 +104,16 @@ int main() {
 				ani.draw_sprite(0);
 				
 				
-				for(auto word : game.word_list){
-					if(!word.is_correct) game.draw_word_box(word, BG_INCORRECT);
+				//for(auto word : game.word_list){
+					//if(!word.is_correct) game.draw_word_box(word, BG_INCORRECT);
 
-				}
+				//}
 				for(auto word : game.word_list){
 					if(word.is_correct) game.draw_word_box(word, BG_CORRECT);
 
 				}
 				game.draw_cursor_word();
-				box.draw_sprite(0);
+				clue_box.draw_sprite(0);
 				game.draw_text();
 				break;
 		}

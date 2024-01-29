@@ -31,3 +31,8 @@ void animation_t::draw_sprite(int sprite_index){
 	}
 	game_p->window.draw(sprite);
 }
+
+//void animation_t::set_pos(){
+	
+
+//}

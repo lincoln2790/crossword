@@ -1,7 +1,7 @@
 #include "../include/game.hpp"
 #include "../include/word_map.hpp"
 game_t::game_t() :
-	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), TITLE_STR, sf::Style::Titlebar | sf::Style::Close),
+	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), TITLE_STR, sf::Style::Titlebar|sf::Style::Resize | sf::Style::Close),
 	view(sf::FloatRect(0.f, 0.f, WINDOW_WIDTH, WINDOW_HEIGHT)),
 	state(IDLE)
 	{
