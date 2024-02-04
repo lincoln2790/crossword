@@ -7,9 +7,16 @@
 
 int main() {
 	game_t game;
-	animation_t ani(ANI_STR, 80, 80, 0, 0, &game, true);
-	animation_t clue_box(CLUE_BOX_STR, CLUE_BOX_WIDTH, CLUE_BOX_HEIGHT, CLUE_BOX_X, CLUE_BOX_Y, &game, false);
+	//std::vector<std::string> ocean_sprite_strs;
+	//ocean_sprite_strs.push_back(ANI_STR);
+	//ocean_sprite_strs.push_back(ANI_STR2);
+	
+	inf_animation_t ani(ANI_STR, 80, 80, 0, 0, &game);
+	inf_animation_t ani2(ANI_STR2, 80, 80, 0, 0, &game);
+	animation_t clue_box(CLUE_BOX_STR, CLUE_BOX_WIDTH, CLUE_BOX_HEIGHT, CLUE_BOX_X, CLUE_BOX_Y, &game);
 
+	sf::Clock clock;
+	int ocean_flag = 0;
 	while(game.window.isOpen()){
 		sf::Event event;
 		while(game.window.pollEvent(event)){
@@ -100,9 +107,16 @@ int main() {
 			case IDLE:
 				break;
 			case PLAYING:
-				ani.draw_sprite(0);
+				if(clock.getElapsedTime().asMilliseconds() > 500){
+					clock.restart();
+					ocean_flag = ~ocean_flag;
+				}
 				
-				
+				if(ocean_flag){
+					ani.draw_sprite();
+				}else {
+					ani2.draw_sprite();
+				}
 				//for(auto word : game.word_list){
 					//if(!word.is_correct) game.draw_word_box(word, BG_INCORRECT);
 

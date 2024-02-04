@@ -23,7 +23,7 @@ Prefixes
 #define NUM_LETTERS 26
 
 // Window Properties
-#define DEFAULT_WINDOW_DIM 800
+#define DEFAULT_WINDOW_DIM 720
 #define MIN_WINDOW_DIM 360
 #define CLUE_BOX_WIDTH DEFAULT_WINDOW_DIM
 #define CLUE_BOX_HEIGHT (DEFAULT_WINDOW_DIM * 0.25)
@@ -77,6 +77,7 @@ const std::string FONT_STR =  RESOURCE_STR "cooper_black.ttf";
 const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";
 //const std::string ANI_STR = RESOURCE_STR "ocean.png";
 const std::string ANI_STR = RESOURCE_STR "Sprite-0005.png";
+const std::string ANI_STR2 = RESOURCE_STR "Sprite-0006.png";
 const std::string CLUE_BOX_STR = RESOURCE_STR "clue_box.png";
 const std::string ACROSS_STR = "Across: \n";
 const std::string DOWN_STR = "Down: \n";

@@ -15,11 +15,17 @@ class animation_t{
 		int sprite_width;
 		int sprite_height;
 		int sprite_scale;
-		int is_inf;
 		game_t *game_p;
 		
-		animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p, int is_inf);
+		animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p);
 		void draw_sprite(int sprite_index);
 
 };
+
+class inf_animation_t: public animation_t{
+	public:
+		inf_animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p);
+		void draw_sprite();
+};
+
 #endif
