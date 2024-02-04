@@ -83,7 +83,7 @@ int main() {
 							game.window.setSize(new_size);
 							sf::FloatRect visibleArea(0, 0, new_window_dim, new_window_dim);
 							game.window.setView(sf::View(visibleArea));
-							game.window_dim = game.window.getSize().x;
+							game.window_scale = (float)game.window.getSize().x/DEFAULT_WINDOW_DIM;
 							break;
                 	
 					//break;
@@ -100,7 +100,7 @@ int main() {
 			case IDLE:
 				break;
 			case PLAYING:
-				ani.draw_sprite(0, game.window_dim);
+				ani.draw_sprite(0);
 				
 				
 				//for(auto word : game.word_list){
@@ -112,7 +112,7 @@ int main() {
 
 				}
 				game.draw_cursor_word();
-				clue_box.draw_sprite(0, game.window_dim);
+				clue_box.draw_sprite(0);
 				game.draw_text();
 				break;
 		}

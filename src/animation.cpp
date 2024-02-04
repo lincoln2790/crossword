@@ -18,7 +18,7 @@ animation_t::animation_t(std::string texture_path, int w, int h, int x, int y, g
 }
 
 
-void animation_t::draw_sprite(int sprite_index, float current_window_dim){
+void animation_t::draw_sprite(int sprite_index){
 
 	if(is_inf){
 		sf::Vector2i pixel_pos(0,0);
@@ -26,8 +26,7 @@ void animation_t::draw_sprite(int sprite_index, float current_window_dim){
 		sprite.setPosition(window_pos);
 		sprite.setTextureRect(sf::IntRect(window_pos.x, window_pos.y, DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM));
 	} else {
-		float window_scalar = current_window_dim/DEFAULT_WINDOW_DIM;
-		sf::Vector2i v(pos.x *window_scalar,pos.y*window_scalar);
+		sf::Vector2i v(pos.x *game_p->window_scale,pos.y*game_p->window_scale);
 		sf::Vector2f window_pos = game_p->window.mapPixelToCoords(v);
 		sprite.setPosition(window_pos);
 	}

@@ -2,7 +2,7 @@
 #include "../include/word_map.hpp"
 game_t::game_t() :
 	window(sf::VideoMode(DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM), TITLE_STR, sf::Style::Titlebar|sf::Style::Resize | sf::Style::Close),
-	window_dim(DEFAULT_WINDOW_DIM),
+	window_scale(1.0),
 	view(sf::FloatRect(0.f, 0.f, DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM)),
 	state(IDLE)
 	{
@@ -256,8 +256,8 @@ void game_t::generate_start_clues(word_t *start_word_p){
 }
 
 void game_t::draw_text(){
-	sf::Vector2i across_clue_pixel_pos(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
-	sf::Vector2i down_clue_pixel_pos(DOWN_CLUE_TEXT_X,DOWN_CLUE_TEXT_Y);
+	sf::Vector2i across_clue_pixel_pos(ACROSS_CLUE_TEXT_X*window_scale,ACROSS_CLUE_TEXT_Y*window_scale);
+	sf::Vector2i down_clue_pixel_pos(DOWN_CLUE_TEXT_X*window_scale,DOWN_CLUE_TEXT_Y*window_scale);
 
 	sf::Vector2f across_clue_world_pos = window.mapPixelToCoords(across_clue_pixel_pos);
 	sf::Vector2f down_clue_world_pos = window.mapPixelToCoords(down_clue_pixel_pos);
