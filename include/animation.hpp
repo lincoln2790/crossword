@@ -19,7 +19,7 @@ class animation_t{
 		game_t *game_p;
 		
 		animation_t(std::string texture_path, int w, int h,int x, int y, game_t *game_p, int is_inf);
-		void draw_sprite(int sprite_index);
+		void draw_sprite(int sprite_index, float current_window_dim);
 
 };
 #endif

@@ -18,14 +18,16 @@ animation_t::animation_t(std::string texture_path, int w, int h, int x, int y, g
 }
 
 
-void animation_t::draw_sprite(int sprite_index){
+void animation_t::draw_sprite(int sprite_index, float current_window_dim){
+
 	if(is_inf){
 		sf::Vector2i pixel_pos(0,0);
 		sf::Vector2f window_pos = game_p->window.mapPixelToCoords(pixel_pos);
 		sprite.setPosition(window_pos);
-		sprite.setTextureRect(sf::IntRect(window_pos.x, window_pos.y, WINDOW_WIDTH, WINDOW_HEIGHT));
+		sprite.setTextureRect(sf::IntRect(window_pos.x, window_pos.y, DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM));
 	} else {
-		sf::Vector2i v(pos.x,pos.y);
+		float window_scalar = current_window_dim/DEFAULT_WINDOW_DIM;
+		sf::Vector2i v(pos.x *window_scalar,pos.y*window_scalar);
 		sf::Vector2f window_pos = game_p->window.mapPixelToCoords(v);
 		sprite.setPosition(window_pos);
 	}

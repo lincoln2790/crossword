@@ -1,8 +1,9 @@
 #include "../include/game.hpp"
 #include "../include/word_map.hpp"
 game_t::game_t() :
-	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), TITLE_STR, sf::Style::Titlebar|sf::Style::Resize | sf::Style::Close),
-	view(sf::FloatRect(0.f, 0.f, WINDOW_WIDTH, WINDOW_HEIGHT)),
+	window(sf::VideoMode(DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM), TITLE_STR, sf::Style::Titlebar|sf::Style::Resize | sf::Style::Close),
+	window_dim(DEFAULT_WINDOW_DIM),
+	view(sf::FloatRect(0.f, 0.f, DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM)),
 	state(IDLE)
 	{
 	window.setTitle(TITLE_STR);
@@ -99,7 +100,7 @@ void game_t::generate_start_word(){
 	std::string start_str = word_map[rand_char][rand_word].first;
 	std::string start_clue = word_map[rand_char][rand_word].second;
 	
-	word_t start_word(start_str, start_clue,3*TILE_WIDTH, WINDOW_HEIGHT/2,true, true, this);
+	word_t start_word(start_str, start_clue,3*TILE_WIDTH, DEFAULT_WINDOW_DIM/2,true, true, this);
 
 }
 

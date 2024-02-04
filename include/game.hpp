@@ -19,6 +19,7 @@ class word_t;
 class game_t{	
 	public:
 		sf::RenderWindow window;
+		int window_dim;
 		sf::View view;
 		sf::Texture tile_texture;
 		sf::Font font;
