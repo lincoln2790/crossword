@@ -71,7 +71,7 @@ Prefixes
 // Strings/file paths
 #define RESOURCE_STR "./resources/"
 const std::string TITLE_STR = "CROSSWORD";
-const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set_3.png";
+const std::string TILE_TEXTURE_STR = RESOURCE_STR "tile_set_copy.png";
 const std::string ICON_STR =  RESOURCE_STR "nyt_logo.png";
 const std::string FONT_STR =  RESOURCE_STR "cooper_black.ttf";
 const std::string WORD_MAP_STR =  RESOURCE_STR "word_map.json";
