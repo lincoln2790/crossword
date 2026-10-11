@@ -5,10 +5,10 @@ SRCS := cursor.cpp game.cpp main.cpp tile.cpp word.cpp animation.cpp
 SRCS_WITH_PATH := $(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS := $(patsubst %.cpp,obj/%.o,$(SRCS))
 TARGET := crossword
-SERIALFLAGS := -IC:\cereal-1.3.2\cereal-1.3.2\include -lstdc++
-CXXFLAGS :=  -IC:/SFML-2.5.1/include -DSFML_STATIC -fpermissive -mwindows -static $(SERIALFLAGS)
+SERIALFLAGS := -I.\libraries\cereal-1.3.2\cereal-1.3.2\include -lstdc++
+CXXFLAGS :=  -I./libraries/SFML-2.5.1/include -fpermissive -mwindows $(SERIALFLAGS)
 
-LDFLAGS :=  -LC:/SFML-2.5.1/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 
+LDFLAGS :=  -L./libraries/SFML-2.5.1/lib -lsfml-graphics -lsfml-window -lsfml-system 
 
 
 all: $(TARGET)
