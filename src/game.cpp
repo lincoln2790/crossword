@@ -12,22 +12,34 @@ game_t::game_t() :
 	tile_texture.loadFromFile(TILE_TEXTURE_STR);
 	tile_texture.setSmooth(true);
 	font.loadFromFile(FONT_STR);
+
+	sf::Image icon;
+	icon.loadFromFile(ICON_STR);
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	
 	across_clue_txt.setFont(font);
 	across_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
 	across_clue_txt.setFillColor(WHITE);
-	across_clue_txt.setString(" ");
+	
 	across_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 
 	down_clue_txt.setFont(font);
 	down_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
 	down_clue_txt.setFillColor(WHITE);
-	down_clue_txt.setString(" ");
+	
 	down_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 	
 	build_sprite_map();
 	build_word_map();
+	start();
 
+
+}
+void game_t::start(){
+	across_clue_txt.setString(" ");
+	down_clue_txt.setString(" ");
+	cursor = cursor_t();
+	word_list.clear();
 	generate_start_word();
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
@@ -38,12 +50,9 @@ game_t::game_t() :
 		across_clue_txt.setString(ACROSS_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
 		down_clue_txt.setString(DOWN_STR + cursor.word_p->clue_str);
 	}
-	sf::Image icon;
-	icon.loadFromFile(ICON_STR);
-	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 }
-
+void game_t::restart(){}
 
 sf::Sprite game_t::get_tile_sprite(char letter){
 	int x,y;
@@ -272,6 +281,13 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 		if(cursor.tile_it != cursor.word_p->tile_list.begin()){
 			std::advance(cursor.tile_it, -1);
 		}
+	} else if(key_code == sf::Keyboard::Key::Escape){
+		// cursor.tile_it->cursor_letter = 0;
+
+		// if(cursor.tile_it != cursor.word_p->tile_list.begin()){
+		// 	std::advance(cursor.tile_it, -1);
+		// }
+		this->state = IDLE;
 	}
 	if(cursor.word_p->is_across){
 		across_clue_txt.setString(ACROSS_STR + cursor.word_p->clue_str);

@@ -32,6 +32,8 @@ class game_t{
 		cursor_t cursor;
 
 		game_t();
+		void start();
+		void restart();
 		sf::Sprite get_tile_sprite(char letter);
 		void build_sprite_map();
 		void build_word_map();

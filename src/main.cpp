@@ -8,9 +8,8 @@
 int main() {
 	game_t game;
 	animation_t clue_box(CLUE_BOX_STR, CLUE_BOX_WIDTH, CLUE_BOX_HEIGHT, CLUE_BOX_X, CLUE_BOX_Y, &game);
-
 	sf::Clock clock;
-	int ocean_flag = 0;
+
 	while(game.window.isOpen()){
 		sf::Event event;
 		while(game.window.pollEvent(event)){
@@ -27,6 +26,12 @@ int main() {
 						case sf::Event::KeyPressed:
 							switch(event.key.code){
 								case sf::Keyboard::Key::Space:
+									game.state = PLAYING;
+									continue;
+									//break;
+								case sf::Keyboard::Key::R:
+									
+									game.start();
 									game.state = PLAYING;
 									continue;
 									//break;
