@@ -27,3 +27,8 @@ clean:
 wordmap:
 	gcc -o build_word_map $(SRC_DIR)/word_mapper.cpp $(SERIALFLAGS)
 	./build_word_map
+	
+
+debug:
+	g++ -o test $(SRC_DIR)/debug.cpp
+	./test

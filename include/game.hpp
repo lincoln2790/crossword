@@ -39,6 +39,7 @@ class game_t{
 		void draw_word_box(word_t word, int letter_code);
 		std::vector<int> find_letter_indices(std::string str, char letter);
 		void draw_cursor_word();
+		void parse_clue_text(std::string *clue);
 		void generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_ind, word_t *word_p);
 		void handle_key_input(sf::Keyboard::Key key_code);
 		void generate_start_clues(word_t *start_word_p);

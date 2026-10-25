@@ -123,11 +123,43 @@ std::vector<int> game_t::find_letter_indices(std::string str, char letter){
 	return ind_vec;
 }
 
+void game_t::parse_clue_text(std::string *clue){
+    int last_space_index;
+    int stop_index = CLUE_LINE_LENGTH - 1;
+    int transport_flag = 0;
+    for(int i = 0; i < clue->length(); i++){
+        if(transport_flag == 1){
+            if(clue->at(i) == ' '){
+                last_space_index = i;
+                transport_flag = 0;
+                clue->at(i) = '\n';
+                stop_index = i + CLUE_LINE_LENGTH;
+            }
+            continue;
+        }
+        if(clue->at(i) == ' '){
+            last_space_index = i;  
+        }
+        if(i == stop_index){
+            std::cout << stop_index << "\n";
+            if(clue->at(last_space_index) == '\n'){
+                // moving to end of current word
+                transport_flag = 1; 
+            } else{
+                clue->at(last_space_index) = '\n';
+                stop_index = last_space_index + CLUE_LINE_LENGTH - 1;
+            }
+        }
+    }
+}
+
 void game_t::generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_index, word_t *word_p){
 	int rand_ind = rand() % word_map[(*tile_it_p)->letter].size();
 	std::string s = word_map[(*tile_it_p)->letter].at(rand_ind).first;
 	std::string clue = word_map[(*tile_it_p)->letter].at(rand_ind).second;
- 
+
+	parse_clue_text(&clue);
+
 	std::vector<int> v = find_letter_indices(s, (*tile_it_p)->letter);
 	int tile_index = v[rand() % v.size()];
 	
@@ -136,6 +168,8 @@ void game_t::generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_in
 	} else {
 		word_t w(s, clue, (*tile_it_p)->pos.x - TILE_WIDTH*TILE_SCALE*tile_index,(*tile_it_p)->pos.y, true, false, this);
 	}
+
+
 
 
 	 (*tile_it_p)->cross_word_p =&(word_list.back()); // this part works

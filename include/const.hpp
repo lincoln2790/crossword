@@ -66,7 +66,7 @@ Prefixes
 #define CURSOR_CROSS_WORD_INCORRECT 7
 
 #define NUM_TILE_SPRITES 8
-
+#define CLUE_LINE_LENGTH 20
 
 // Strings/file paths
 #define RESOURCE_STR "./resources/"
