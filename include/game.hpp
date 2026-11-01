@@ -32,6 +32,7 @@ class game_t{
 		cursor_t cursor;
 
 		game_t();
+		void update_clue_txt();
 		void start();
 		void restart();
 		sf::Sprite get_tile_sprite(char letter);

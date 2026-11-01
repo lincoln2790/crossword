@@ -35,6 +35,17 @@ game_t::game_t() :
 
 
 }
+
+void game_t::update_clue_txt(){
+	if(cursor.word_p->is_across){
+		across_clue_txt.setString(ACROSS_STR + cursor.word_p->clue_str + " (" + std::to_string(cursor.word_p->word_str.length()) + ")");
+		down_clue_txt.setString(DOWN_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str + " (" + std::to_string(cursor.word_p->word_str.length()) + ")": " - " ));
+	}else{
+		across_clue_txt.setString(ACROSS_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str + " (" + std::to_string(cursor.word_p->word_str.length()) + ")": " - " ));
+		down_clue_txt.setString(DOWN_STR + cursor.word_p->clue_str + " (" + std::to_string(cursor.word_p->word_str.length()) + ")");
+	}
+}
+
 void game_t::start(){
 	across_clue_txt.setString(" ");
 	down_clue_txt.setString(" ");
@@ -43,13 +54,7 @@ void game_t::start(){
 	generate_start_word();
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
-	if(cursor.word_p->is_across){
-		across_clue_txt.setString(ACROSS_STR + cursor.word_p->clue_str);
-		down_clue_txt.setString(DOWN_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
-	}else{
-		across_clue_txt.setString(ACROSS_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
-		down_clue_txt.setString(DOWN_STR + cursor.word_p->clue_str);
-	}
+	update_clue_txt();
 
 }
 void game_t::restart(){}
@@ -289,14 +294,10 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 		// }
 		this->state = IDLE;
 	}
-	if(cursor.word_p->is_across){
-		across_clue_txt.setString(ACROSS_STR + cursor.word_p->clue_str);
-		down_clue_txt.setString(DOWN_STR + (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
-	}else{
-		across_clue_txt.setString(ACROSS_STR +  (cursor.tile_it->cross_word_p != NULL ? cursor.tile_it->cross_word_p->clue_str : " - " ));
-		down_clue_txt.setString(DOWN_STR + cursor.word_p->clue_str);
-	}
+	update_clue_txt();
 }
+
+
 
 void game_t::generate_start_clues(word_t *start_word_p){
 	int i = 0;
