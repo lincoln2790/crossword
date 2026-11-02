@@ -4,7 +4,8 @@ game_t::game_t() :
 	window(sf::VideoMode(DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM), TITLE_STR, sf::Style::Titlebar|sf::Style::Resize | sf::Style::Close),
 	window_scale(1.0),
 	view(sf::FloatRect(0.f, 0.f, DEFAULT_WINDOW_DIM, DEFAULT_WINDOW_DIM)),
-	state(IDLE)
+	state(IDLE),
+	points(0)
 	{
 	window.setTitle(TITLE_STR);
 	window.setView(view);
@@ -20,15 +21,19 @@ game_t::game_t() :
 	across_clue_txt.setFont(font);
 	across_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
 	across_clue_txt.setFillColor(WHITE);
-	
 	across_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 
 	down_clue_txt.setFont(font);
 	down_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
 	down_clue_txt.setFillColor(WHITE);
-	
 	down_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
+
+	points_txt.setFont(font);
+	points_txt.setCharacterSize(CLUE_FONT_SIZE);
+	points_txt.setFillColor(WHITE);
+	points_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 	
+
 	build_sprite_map();
 	build_word_map();
 	start();
@@ -46,6 +51,10 @@ void game_t::update_clue_txt(){
 	}
 }
 
+void game_t::update_points_txt(){
+	points_txt.setString(std::to_string(points));
+}
+
 void game_t::start(){
 	across_clue_txt.setString(" ");
 	down_clue_txt.setString(" ");
@@ -55,9 +64,9 @@ void game_t::start(){
 	cursor.set_pos(&(word_list.back()));
 	generate_start_clues(&word_list.front());
 	update_clue_txt();
+	update_points_txt();
 
 }
-void game_t::restart(){}
 
 sf::Sprite game_t::get_tile_sprite(char letter){
 	int x,y;
@@ -295,6 +304,7 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 		this->state = IDLE;
 	}
 	update_clue_txt();
+	
 }
 
 
@@ -309,15 +319,21 @@ void game_t::generate_start_clues(word_t *start_word_p){
 void game_t::draw_text(){
 	sf::Vector2i across_clue_pixel_pos(ACROSS_CLUE_TEXT_X*window_scale,ACROSS_CLUE_TEXT_Y*window_scale);
 	sf::Vector2i down_clue_pixel_pos(DOWN_CLUE_TEXT_X*window_scale,DOWN_CLUE_TEXT_Y*window_scale);
+	sf::Vector2i points_pixel_pos(POINTS_TEXT_X*window_scale,POINTS_TEXT_Y*window_scale);
 
 	sf::Vector2f across_clue_world_pos = window.mapPixelToCoords(across_clue_pixel_pos);
 	sf::Vector2f down_clue_world_pos = window.mapPixelToCoords(down_clue_pixel_pos);
+	sf::Vector2f points_world_pos = window.mapPixelToCoords(points_pixel_pos);
 	
 	across_clue_txt.setPosition(across_clue_world_pos.x, across_clue_world_pos.y);
 	down_clue_txt.setPosition(down_clue_world_pos.x, down_clue_world_pos.y);
+	points_txt.setPosition(points_world_pos.x, points_world_pos.y);
 	window.draw(across_clue_txt);
 	window.draw(down_clue_txt);
+	window.draw(points_txt);
+
 }
+
 
 void game_t::update_view(){
 	int x, y;

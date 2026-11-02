@@ -23,6 +23,8 @@ class game_t{
 		sf::View view;
 		sf::Texture tile_texture;
 		sf::Font font;
+		int points;
+		sf::Text points_txt;
 		sf::Text across_clue_txt;
 		sf::Text down_clue_txt;
 		std::map<char, sf::Sprite> sprite_map;
@@ -33,8 +35,8 @@ class game_t{
 
 		game_t();
 		void update_clue_txt();
+		void update_points_txt();
 		void start();
-		void restart();
 		sf::Sprite get_tile_sprite(char letter);
 		void build_sprite_map();
 		void build_word_map();

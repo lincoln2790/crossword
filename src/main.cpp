@@ -46,6 +46,8 @@ int main() {
 								game.cursor.tile_it->cursor_letter = event.text.unicode;
 								if(game.cursor.check()){
 									int cursor_index = 0;
+									game.points += game.cursor.word_p->word_str.length();
+									game.update_points_txt();
 									for(auto it = game.cursor.word_p->tile_list.begin(); it != game.cursor.word_p->tile_list.end(); ++it){
 										if(!it->is_correct){
 											game.generate_clue(&it, cursor_index, game.cursor.word_p);
