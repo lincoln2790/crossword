@@ -45,24 +45,7 @@ int main() {
 							if((!game.cursor.word_p->is_correct) && (event.text.unicode >= 'a' && event.text.unicode <= 'z')){
 								game.cursor.tile_it->cursor_letter = event.text.unicode;
 								if(game.cursor.check()){
-									int cursor_index = 0;
-									game.points += game.cursor.word_p->word_str.length();
-									game.update_points_txt();
-									for(auto it = game.cursor.word_p->tile_list.begin(); it != game.cursor.word_p->tile_list.end(); ++it){
-										if(!it->is_correct){
-											game.generate_clue(&it, cursor_index, game.cursor.word_p);
-											//std::cout << it->cross_word_ind <<std::endl;
-
-											it->is_correct = true;
-										}
-										//std::cout << it.crossing_word;
-										cursor_index++;
-
-									}
-									game.cursor.word_p->is_correct = true;
-									auto it = game.cursor.word_p->tile_list.begin();
-									std::advance(it, game.cursor.tile_it->cross_word_ind);
-									game.cursor.tile_it = it;
+									game.handle_correct_word();
 									continue;
 								}
 								std::advance(game.cursor.tile_it, 1);

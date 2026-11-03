@@ -122,6 +122,7 @@ void game_t::generate_start_word(){
 	int rand_word = rand() % (word_map[rand_char].size());
 	std::string start_str = word_map[rand_char][rand_word].first;
 	std::string start_clue = word_map[rand_char][rand_word].second;
+	parse_clue_text(&start_clue);
 	
 	word_t start_word(start_str, start_clue,3*TILE_WIDTH, DEFAULT_WINDOW_DIM/2,true, true, this);
 
@@ -248,6 +249,32 @@ void game_t::draw_cursor_word(){
 	}
 	
 }
+
+
+void game_t::handle_correct_word(){
+	
+	int cursor_index = 0;
+	points += cursor.word_p->word_str.length();
+	update_points_txt();
+	for(auto it = cursor.word_p->tile_list.begin(); it != cursor.word_p->tile_list.end(); ++it){
+		if(it->cross_word_p == NULL){
+			generate_clue(&it, cursor_index, cursor.word_p);
+			//std::cout << it->cross_word_ind <<std::endl;
+
+			it->is_correct = true;
+		}
+		//std::cout << it.crossing_word;
+		cursor_index++;
+
+	}
+	cursor.word_p->is_correct = true;
+	auto it = cursor.word_p->tile_list.begin();
+	std::advance(it, cursor.tile_it->cross_word_ind);
+	cursor.tile_it = it;
+
+	
+}
+
 void game_t::handle_key_input(sf::Keyboard::Key key_code){
 	if(key_code == sf::Keyboard::Key::Up ||key_code == sf::Keyboard::Key::Down ||key_code == sf::Keyboard::Key::Left ||key_code == sf::Keyboard::Key::Right ){
 		std::list<tile_t>::iterator boundary_it;
@@ -295,12 +322,26 @@ void game_t::handle_key_input(sf::Keyboard::Key key_code){
 		if(cursor.tile_it != cursor.word_p->tile_list.begin()){
 			std::advance(cursor.tile_it, -1);
 		}
+	}
+	else if(key_code == sf::Keyboard::Key::Space){ 
+		// reveal letter
+		if(!cursor.word_p->is_correct && points >= REVEAL_COST){
+			points -= REVEAL_COST;
+			cursor.tile_it->is_correct = 1;
+			if(cursor.check()){
+				handle_correct_word();
+			}
+			std::advance(cursor.tile_it, 1);
+			while(!cursor.word_p->is_correct && (cursor.tile_it == (cursor.word_p->tile_list.end()) || cursor.tile_it->is_correct)){
+				if(cursor.tile_it == cursor.word_p->tile_list.end()){
+					cursor.tile_it = cursor.word_p->tile_list.begin();
+				}
+				if(cursor.tile_it->is_correct){
+					std::advance(cursor.tile_it, 1);
+				}
+			}
+		}
 	} else if(key_code == sf::Keyboard::Key::Escape){
-		// cursor.tile_it->cursor_letter = 0;
-
-		// if(cursor.tile_it != cursor.word_p->tile_list.begin()){
-		// 	std::advance(cursor.tile_it, -1);
-		// }
 		this->state = IDLE;
 	}
 	update_clue_txt();

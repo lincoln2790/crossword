@@ -39,6 +39,7 @@ Prefixes
 // Game Properties
 #define MAX_WORD_LEN 255 
 #define NUM_CLUES 1000
+#define REVEAL_COST 10
 
 // Tile Texture
 #define TILE_TEXTURE_COLS 15

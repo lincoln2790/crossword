@@ -47,6 +47,7 @@ class game_t{
 		void parse_clue_text(std::string *clue);
 		void generate_clue(std::list<tile_t>::iterator *tile_it_p, int cursor_ind, word_t *word_p);
 		void handle_key_input(sf::Keyboard::Key key_code);
+		void handle_correct_word();
 		void generate_start_clues(word_t *start_word_p);
 		void draw_text();
 		void update_view();
