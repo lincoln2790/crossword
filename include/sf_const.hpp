@@ -12,6 +12,8 @@ const sf::Color WHITE = sf::Color(255, 255, 255, 255);
 const sf::Color GREY = sf::Color(128, 128, 128, 255);
 const sf::Color D_GREEN = sf::Color(70, 100, 70, 255);
 const sf::Color BACKGROUND_COLOR = sf::Color(41, 173, 255, 255);
+const sf::Color CLUE_TEXT_COLOR = sf::Color(115, 73, 36, 255);
+const sf::Color POINTS_TEXT_COLOR = sf::Color(0, 0, 0, 255);
 // const sf::Color BACKGROUND_COLOR = sf::Color(255, 255, 0, 255);
 
 #endif

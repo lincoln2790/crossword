@@ -20,17 +20,17 @@ game_t::game_t() :
 	
 	across_clue_txt.setFont(font);
 	across_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
-	across_clue_txt.setFillColor(WHITE);
+	across_clue_txt.setFillColor(CLUE_TEXT_COLOR);
 	across_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 
 	down_clue_txt.setFont(font);
 	down_clue_txt.setCharacterSize(CLUE_FONT_SIZE);
-	down_clue_txt.setFillColor(WHITE);
+	down_clue_txt.setFillColor(CLUE_TEXT_COLOR);
 	down_clue_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 
 	points_txt.setFont(font);
 	points_txt.setCharacterSize(CLUE_FONT_SIZE);
-	points_txt.setFillColor(WHITE);
+	points_txt.setFillColor(POINTS_TEXT_COLOR);
 	points_txt.setPosition(ACROSS_CLUE_TEXT_X,ACROSS_CLUE_TEXT_Y);
 	
 
